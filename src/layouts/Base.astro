@@ -74,6 +74,13 @@ const showBar = praxis.announcement?.sichtbar;
       </nav>
     </div>
 
+    {showBar && (
+      <a class="announcement announcement-mobile" href={praxis.announcement.url} target="_blank" rel="noopener">
+        <span class="mobile-text">Termine können Sie nun online Buchen</span>
+        <span class="sh_button">Termin buchen</span>
+      </a>
+    )}
+
     <slot />
 
     <footer id="page-footer">

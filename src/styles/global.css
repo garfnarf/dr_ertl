@@ -63,15 +63,21 @@ a:hover { color: rgba(166, 183, 149, 0.8); }
 .announcement:hover .sh_button { background-color: var(--sage-dark); }
 body.has-announcement { padding-top: 0; }
 .announcement .mobile-text { display: none; }
+.announcement-mobile { display: none; }
 @media (max-width: 767px) {
-  .announcement {
-    font-size: 15px;
-    line-height: 1.4;
+  .announcement:not(.announcement-mobile) { display: none; }
+  .announcement-mobile {
+    display: block;
+    position: static;
+    margin: 12px 10px;
+    border-radius: 10px;
+    font-size: 17px;
+    line-height: 1.5;
     height: auto;
-    padding: 8px 12px;
+    padding: 12px 14px;
   }
   .announcement .mobile-text { display: inline; color: var(--offwhite); margin-right: 8px; }
-  body.has-announcement #main-nav { top: 62px; }
+  body.has-announcement #main-nav { top: 0; }
 }
 
 /* ---------- Header ---------- */
@@ -96,8 +102,8 @@ body.has-announcement { padding-top: 0; }
   .entry-header .logo-img { width: 360px; margin-top: 45px; }
 }
 @media (max-width: 640px) {
-  .entry-header { height: 200px; }
-  .entry-header .logo-img { width: 300px; margin-top: 25px; }
+  .entry-header { height: 275px; }
+  .entry-header .logo-img { width: 300px; margin-top: 55px; }
 }
 
 /* ---------- Nav ---------- */
@@ -200,6 +206,13 @@ body:not(.has-announcement) #main-nav { top: 0; }
   .infobar-inner, .infobar-inner.cols-4 { grid-template-columns: 1fr 1fr; }
   .hoursbar { flex-wrap: wrap; gap: 16px; }
 }
+@media (max-width: 640px) {
+  .infobar { background: #fff; }
+  .infobar-inner, .infobar-inner.cols-4 { grid-template-columns: 1fr; gap: 28px; }
+  .iconbox { flex-direction: column; align-items: center; text-align: center; gap: 8px; }
+  .hoursbar { display: block; padding-bottom: 28px; }
+  .hoursbar .day { margin-bottom: 16px; }
+}
 
 /* ---------- Sections ---------- */
 .section { padding: 70px 0; }
@@ -228,6 +241,12 @@ h1.page-title, .news h4, .big-heading {
   line-height: 1.1;
   color: var(--green);
   margin-bottom: 25px;
+  overflow-wrap: break-word;
+}
+@media (max-width: 767px) {
+  h1.page-title, .news h4, .big-heading { font-size: 29px; }
+  .leistungen-intro h1, .leistungen-intro h2 { font-size: 29px; }
+  .cv-intro h2 { font-size: 28px; }
 }
 
 .news { max-width: 950px; }
