@@ -1,0 +1,82 @@
+---
+import Base from '../layouts/Base.astro';
+import praxis from '../data/praxis.yaml';
+
+const mapsQuery = encodeURIComponent(`${praxis.adresse.strasse}, ${praxis.adresse.ort}`);
+---
+<Base title="Anfahrt & Kontakt – Fach- und Hausarztpraxis Dres. Ertl" active="kontakt">
+  <div class="container">
+    <div class="kontakt-cols">
+      <div class="photo">
+        <img src="/uploads/praxis-7.jpg" alt="Unsere Praxis" />
+      </div>
+      <div>
+        <div class="kbox">
+          <i class="fas fa-phone-alt"></i>
+          <h3>Telefon</h3>
+          <p>{praxis.telefon}</p>
+        </div>
+        <div class="kbox">
+          <i class="far fa-file-alt"></i>
+          <h3>Hotline für Rezepte</h3>
+          <p>{praxis.rezepthotline}</p>
+        </div>
+        <div class="kbox">
+          <i class="fas fa-fax"></i>
+          <h3>Fax</h3>
+          <p>{praxis.fax}</p>
+        </div>
+        <p class="khinweis">Bitte <b>keine Anfragen</b> per eMail, dieselben werden aus Datenschutzgründen nicht bearbeitet.</p>
+      </div>
+      <div>
+        <div class="kbox">
+          <i class="far fa-clock"></i>
+          <h3>Sprechzeiten</h3>
+          {praxis.sprechzeiten.map((s: { tag: string; zeiten: string }) => (
+            <div class="day">
+              <b>{s.tag}</b>
+              <span>{s.zeiten}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <div class="kbox" style="margin-top: 10px;">
+      <i class="fas fa-map-marker-alt"></i>
+      <h3>{praxis.adresse.strasse}</h3>
+      <p>{praxis.adresse.ort}</p>
+    </div>
+
+    <div class="map-wrap">
+      <div class="map-mask" id="map-mask">
+        <button class="btn" id="map-load">Google Maps laden *</button>
+      </div>
+      <p class="map-caption">
+        * Beim Laden der Karte akzeptieren Sie die Datenschutzbedingungen von Google.
+        <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Mehr erfahren</a>
+      </p>
+    </div>
+
+    <div class="kbox" style="margin: 35px 0 60px;">
+      <i class="fas fa-info-circle"></i>
+      <h3>Weitere Informationen</h3>
+      <p>
+        Sollten Sie außerhalb unserer Sprechzeiten einen ärztlichen Dienst benötigen, wenden Sie sich bitte
+        an den ärztlichen Bereitschaftsdienst unter der Rufnummer 116117.
+        <b><u>Im Notfall wählen Sie bitte immer die 112</u>!</b>
+      </p>
+    </div>
+  </div>
+
+  <script define:vars={{ mapsQuery }}>
+    document.getElementById('map-load')?.addEventListener('click', () => {
+      const mask = document.getElementById('map-mask');
+      const iframe = document.createElement('iframe');
+      iframe.src = `https://www.google.com/maps?q=${mapsQuery}&output=embed`;
+      iframe.loading = 'lazy';
+      iframe.referrerPolicy = 'no-referrer-when-downgrade';
+      mask.replaceWith(iframe);
+    });
+  </script>
+</Base>

@@ -1,0 +1,55 @@
+---
+import praxis from '../data/praxis.yaml';
+
+interface Props {
+  hours?: boolean;
+  covidUpdate?: boolean;
+}
+const { hours = false, covidUpdate = false } = Astro.props;
+---
+<div class="infobar">
+  <div class="container">
+    <div class={`infobar-inner ${covidUpdate ? 'cols-4' : ''}`}>
+      <div class="iconbox">
+        <i class="fas fa-map-marker-alt"></i>
+        <div>
+          <div class="ib-title">{praxis.adresse.strasse}</div>
+          <div class="ib-sub">{praxis.adresse.ort}</div>
+        </div>
+      </div>
+      <div class="iconbox">
+        <i class="fas fa-phone-alt"></i>
+        <div>
+          <div class="ib-title">{praxis.telefon}</div>
+          <div class="ib-sub">Telefon</div>
+        </div>
+      </div>
+      <div class="iconbox">
+        <i class="far fa-file-alt"></i>
+        <div>
+          <div class="ib-title">{praxis.rezepthotline}</div>
+          <div class="ib-sub">Rezepthotline</div>
+        </div>
+      </div>
+      {covidUpdate && (
+        <a class="iconbox" href="/#covid-impfung">
+          <i class="fab fa-medrt"></i>
+          <div>
+            <div class="ib-title">Update: COVID-19</div>
+            <div class="ib-sub">Aktuelle Infos mit einem Klick!</div>
+          </div>
+        </a>
+      )}
+    </div>
+    {hours && (
+      <div class="hoursbar">
+        {praxis.sprechzeiten.map((s: { tag: string; zeiten: string }) => (
+          <div class="day">
+            <b>{s.tag}</b>
+            {s.zeiten.split('|').map((z: string) => <span>{z.trim()}</span>)}
+          </div>
+        ))}
+      </div>
+    )}
+  </div>
+</div>

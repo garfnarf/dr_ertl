@@ -1,0 +1,36 @@
+name: Fach- und Hausarztpraxis Dres. Ertl
+adresse:
+  strasse: Lanzenhaarer Str. 1
+  ort: 82041 Oberhaching
+telefon: 089 - 613 09 222
+rezepthotline: 089 - 613 09 296
+fax: 089 - 613 09 234
+email: info@praxis-dr-ertl.de
+terminland: https://www.terminland.de/praxis-dr-ertl/
+announcement:
+  sichtbar: true
+  text: Termin-Onlinebuchung
+  url: https://www.terminland.de/praxis-dr-ertl/
+sprechzeiten:
+  - tag: 'Montag:'
+    zeiten: '07:45 – 12:00 Uhr | 15:00 – 19:00 Uhr'
+  - tag: 'Dienstag:'
+    zeiten: '08:00 – 12:00 Uhr | 15:00 – 18:30 Uhr'
+  - tag: 'Mittwoch:'
+    zeiten: '08:00 – 13:00 Uhr'
+  - tag: 'Donnerstag:'
+    zeiten: '07:45 – 12:00 Uhr | 15:00 – 18:00 Uhr'
+  - tag: 'Freitag:'
+    zeiten: '08:00 – 13:00 Uhr'
+sprechstundeKurz: Montag bis Freitag ab 8 Uhr
+emailHinweis: >-
+  Bitte sehen Sie davon ab, die Praxis per Email zu kontaktieren. Da es sich um
+  ein unverschlüsseltes Medium handelt, können wir Anfragen auf diesem Weg
+  nicht beantworten.
+kontaktHinweis: >-
+  Bitte keine Anfragen per eMail, dieselben werden aus Datenschutzgründen nicht
+  bearbeitet.
+notdienst: >-
+  Sollten Sie außerhalb unserer Sprechzeiten einen ärztlichen Dienst benötigen,
+  wenden Sie sich bitte an den ärztlichen Bereitschaftsdienst unter der
+  Rufnummer 116117. Im Notfall wählen Sie bitte immer die 112!

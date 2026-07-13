@@ -1,0 +1,12 @@
+---
+titel: Reisemedizin
+untertitel: Beratung für bevorstehende Reisen
+icon: fas fa-plane-departure
+bild: /uploads/reise.jpg
+reihenfolge: 80
+---
+- Schließen von Impflücken, Reiseimpfungen
+- Beratung zu Sonnenschutz, Hygienemaßnahmen, Malariaprophylaxe
+- Gelbfieberimpfstelle
+- Dengue-Impfung
+- Chikungunya-Impfung

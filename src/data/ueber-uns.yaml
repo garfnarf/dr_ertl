@@ -1,0 +1,46 @@
+galerie:
+  - /uploads/galerie-1.jpg
+  - /uploads/galerie-2.jpg
+  - /uploads/galerie-3.jpg
+  - /uploads/galerie-4.jpg
+  - /uploads/galerie-5.jpg
+  - /uploads/galerie-6.jpg
+  - /uploads/galerie-7.jpg
+  - /uploads/galerie-8.jpg
+  - /uploads/galerie-9.jpg
+  - /uploads/galerie-10.jpg
+  - /uploads/galerie-11.jpg
+  - /uploads/galerie-12.jpg
+zahlen:
+  - wert: 28
+    text: Jahren Praxis in Oberhaching
+  - wert: 10
+    text: Medizinische Schwerpunkte
+  - wert: 11
+    text: Köpfe kümmern sich um Sie
+  - wert: 13
+    text: Fortbildungen pro Jahr
+willkommen:
+  titel: Willkommen in unserer Praxis
+  untertitel: Hier steht der Patient an oberster Stelle!
+  text: |-
+    Wir freuen uns, Sie über unsere Praxis und unser Leistungsangebot zu informieren.
+
+    Von den ersten Lebenstagen an bis ins hohe Alter stehen wir Ihnen mit unserer Kompetenz bei allgemeinmedizinischen und internistischen Erkrankungen zur Seite. Für die chronisch erkrankten Patienten mit Asthma, chronisch-obstruktiver Lungenerkrankung, Koronarer Herzerkrankung und Diabetes mellitus bieten wir Disease-Management-Programme an. Auch eine Teilnahme am sogenannten „Hausarzt-Modell“ ist bei uns möglich.
+
+    Daneben bilden wir als anerkannte Lehrpraxis der Ludwigs-Maximilians-Universität München Studenten der Humanmedizin mit aus.
+weitereInfos:
+  text: Wenn Sie weitere Fragen haben, rufen Sie uns gerne unter 089 – 613 09 222 an.
+  boxen:
+    - icon: fas fa-home
+      titel: Hausbesuche
+      text: Hausbesuche werden nach Vereinbarung durchgeführt.
+    - icon: fas fa-syringe
+      titel: Blutentnahme
+      text: Blutentnahmen sind täglich zwischen 07:00 und 12:00 Uhr vorgesehen.
+    - icon: fas fa-clinic-medical
+      titel: Notfall
+      text: >-
+        Sollten Sie außerhalb unserer Sprechzeiten einen ärztlichen Dienst
+        benötigen, wenden Sie sich bitte an den ärztlichen Bereitschaftsdienst
+        unter der Rufnummer 116117. Im Notfall wählen Sie bitte immer die 112!

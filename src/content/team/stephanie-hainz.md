@@ -1,0 +1,6 @@
+---
+name: Stephanie Hainz
+rolle: Praxisassistentin
+foto: /uploads/stephanie-hainz.jpg
+reihenfolge: 40
+---

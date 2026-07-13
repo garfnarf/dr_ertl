@@ -1,0 +1,106 @@
+---
+import Base from '../layouts/Base.astro';
+import InfoBar from '../components/InfoBar.astro';
+import LeistungenGrid from '../components/LeistungenGrid.astro';
+import TeamCarousel from '../components/TeamCarousel.astro';
+import praxis from '../data/praxis.yaml';
+import ueberUns from '../data/ueber-uns.yaml';
+
+const paragraphs = ueberUns.willkommen.text.split('\n\n');
+---
+<Base title="Über Uns – Fach- und Hausarztpraxis Dres. Ertl" active="ueber-uns">
+  <InfoBar covidUpdate={true} />
+
+  <div class="galerie">
+    {ueberUns.galerie.map((src: string) => (
+      <img src={src} alt="Einblick in die Praxis" loading="lazy" />
+    ))}
+  </div>
+
+  <div class="container">
+    <div class="zahlen">
+      {ueberUns.zahlen.map((z: { wert: number; text: string }) => (
+        <div class="zahl">
+          <div class="wert" data-count={z.wert}>{z.wert}</div>
+          <div class="text">{z.text}</div>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <div class="welcome-area">
+    <div class="container">
+      <div class="welcome-cols">
+        <div class="welcome-box">
+          <h1>{ueberUns.willkommen.titel}</h1>
+          <h2>{ueberUns.willkommen.untertitel}</h2>
+          {paragraphs.map((p: string) => <p>{p}</p>)}
+        </div>
+        <div class="hours-box">
+          <h2>Sprechzeiten</h2>
+          <div class="subhead">Wir freuen uns auf Sie!</div>
+          {praxis.sprechzeiten.map((s: { tag: string; zeiten: string }) => (
+            <div class="day">
+              <b>{s.tag}</b>
+              <span>{s.zeiten}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container leistungen-intro">
+    <h2>Unsere Leistungen</h2>
+    <p>Erfahren Sie mehr über die Leistungen, die wir anbieten.</p>
+    <LeistungenGrid linkTo="/leistungen/" limit={8} />
+    <p style="margin-top: 30px;"><a class="btn" href="/leistungen/">Zu unseren Leistungen</a></p>
+  </div>
+
+  <div class="container leistungen-intro" style="padding-top: 20px;">
+    <h2>Unser Team</h2>
+    <div style="color: var(--sage); font-weight: 600; margin-bottom: 8px;">Wir sind für Sie da und freuen uns auf Sie!</div>
+    <p>Lernen Sie unser kompetentes Praxis- und Ärzteteam kennen.</p>
+  </div>
+  <TeamCarousel />
+  <div class="container" style="padding: 30px 10px; text-align: center;">
+    <a class="btn" href="/praxisteam/">Zu unserem Team</a>
+  </div>
+
+  <div class="container leistungen-intro" style="padding-top: 30px;">
+    <h2>Weitere Informationen</h2>
+    <p>{ueberUns.weitereInfos.text}</p>
+    <div class="infoboxen">
+      {ueberUns.weitereInfos.boxen.map((b: { icon: string; titel: string; text: string }) => (
+        <div class="infobox2">
+          <div class="icon-frame"><i class={b.icon}></i></div>
+          <div>
+            <h3>{b.titel}</h3>
+            <p>{b.text}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+    <p><a class="btn" href="/kontakt/">Kontaktieren Sie uns!</a></p>
+  </div>
+
+  <script>
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target as HTMLElement;
+        io.unobserve(el);
+        const target = parseInt(el.dataset.count || '0', 10);
+        const start = performance.now();
+        const dur = 1800;
+        const tick = (now: number) => {
+          const t = Math.min((now - start) / dur, 1);
+          el.textContent = String(Math.round(target * t));
+          if (t < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      });
+    });
+    document.querySelectorAll('[data-count]').forEach((el) => io.observe(el));
+  </script>
+</Base>

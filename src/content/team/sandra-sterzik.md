@@ -1,0 +1,6 @@
+---
+name: Sandra Sterzik
+rolle: Praxisassistentin
+foto: /uploads/sandra-sterzik.jpg
+reihenfolge: 30
+---
