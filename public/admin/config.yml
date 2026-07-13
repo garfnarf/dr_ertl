@@ -19,7 +19,7 @@ backend:
   app_id: REPLACE_ME_GITLAB_APPLICATION_ID
 
 # Für lokales Arbeiten: `npx decap-server` starten und Zeile aktivieren
-# local_backend: true
+local_backend: true
 
 locale: de
 site_url: https://praxis-dr-ertl.de
