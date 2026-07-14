@@ -116,6 +116,15 @@ def minify_css(css):
     css = re.sub(r'\s+', ' ', css)
     return css.strip()
 
+def save_image_with_quality(src_path, dest_path, quality=80):
+    """Saves an image with a specific compression quality (lossless optimize for PNG)."""
+    from PIL import Image
+    with Image.open(src_path) as img:
+        if img.format == 'PNG':
+            img.save(dest_path, 'PNG', optimize=True)
+        else:
+            img.save(dest_path, 'JPEG', quality=quality, optimize=True)
+
 def resize_image_to_width(src_path, dest_path, target_width):
     """Resizes an image to a target width while keeping the aspect ratio."""
     from PIL import Image
@@ -127,7 +136,7 @@ def resize_image_to_width(src_path, dest_path, target_width):
         if img.format == 'PNG':
             resized_img.save(dest_path, 'PNG', optimize=True)
         else:
-            resized_img.save(dest_path, 'JPEG', quality=85, optimize=True)
+            resized_img.save(dest_path, 'JPEG', quality=80, optimize=True)
 
 def process_images():
     """Reads raw images from src/uploads/ and generates required responsive widths."""
@@ -145,12 +154,16 @@ def process_images():
         if not os.path.isfile(src_path) or filename.lower().endswith(('.yml', '.yaml', '.gitkeep', '.txt')):
             continue
             
-        # Copy the original file to public/uploads/
+        # Copy/recompress the original file to public/uploads/
         dest_orig_path = os.path.join(dest_uploads, filename)
-        # Check if original needs to be copied
+        # Check if original needs to be copied/processed
         if not os.path.exists(dest_orig_path) or os.path.getmtime(src_path) > os.path.getmtime(dest_orig_path):
-            shutil.copy(src_path, dest_orig_path)
-            print(f"Copied original: {filename}")
+            try:
+                save_image_with_quality(src_path, dest_orig_path, quality=80)
+                print(f"Processed and compressed original: {filename}")
+            except Exception as e:
+                shutil.copy(src_path, dest_orig_path)
+                print(f"Copied original (fallback): {filename}. Error: {e}")
         
         name, ext = os.path.splitext(filename.lower())
         
