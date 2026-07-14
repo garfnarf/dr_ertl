@@ -421,11 +421,12 @@ def main():
 
     # 9. Copy PHP backend scripts
     print("Copying PHP scripts...")
-    src_php = os.path.join('src', 'send_rezept.php')
-    dest_php = os.path.join(OUTPUT_DIR, 'send_rezept.php')
-    if os.path.exists(src_php):
-        shutil.copy(src_php, dest_php)
-        print(f"Copied {src_php} to {dest_php}")
+    for filename in os.listdir('src'):
+        if filename.endswith('.php'):
+            src_php = os.path.join('src', filename)
+            dest_php = os.path.join(OUTPUT_DIR, filename)
+            shutil.copy(src_php, dest_php)
+            print(f"Copied {src_php} to {dest_php}")
 
     print("--- Build completed successfully ---")
 

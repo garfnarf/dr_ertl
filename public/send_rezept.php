@@ -8,14 +8,9 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 // ==========================================
-// KONFIGURATION (Bitte hier Ihre Daten eintragen)
+// KONFIGURATION (Microsoft Office 365 / Graph API)
 // ==========================================
-define('SMTP_HOST', 'smtp.hosteurope.de');       // SMTP-Server von Host Europe
-define('SMTP_PORT', 587);                        // 587 (für TLS-Verschlüsselung) oder 465 (für SSL)
-define('SMTP_USER', 'rezeptformular@praxis-dr-ertl.de'); // Der Benutzername Ihres Postfachs bei Host Europe
-define('SMTP_PASS', 'IHR_POSTFACH_PASSWORT');    // Das Passwort des Postfachs
-define('MAIL_TO', 'info@praxis-dr-ertl.de');      // Die Empfänger-Adresse (Ihr Exchange / O365 Postfach)
-define('FROM_EMAIL', 'rezeptformular@praxis-dr-ertl.de'); // Muss dem SMTP-Postfach entsprechen
+require_once __DIR__ . '/credentials.php';
 define('FROM_NAME', 'Praxis-Website');
 // ==========================================
 
@@ -86,89 +81,115 @@ $message = "
 </html>
 ";
 
-// SMTP socket connection helper function
-function send_smtp_mail($to, $subject, $message_html, $from_email, $from_name, $smtp_host, $smtp_username, $smtp_password, $smtp_port) {
-    $is_ssl = ($smtp_port == 465);
-    $socket = fsockopen(($is_ssl ? "ssl://" : "") . $smtp_host, $smtp_port, $errno, $errstr, 15);
-    if (!$socket) {
-        return false;
-    }
-    
-    fgets($socket, 515); // Greeting
-    
-    fwrite($socket, "EHLO " . $_SERVER['SERVER_NAME'] . "\r\n");
-    while ($line = fgets($socket, 515)) {
-        if (substr($line, 3, 1) == " ") break;
-    }
-    
-    // STARTTLS negotiation for Port 587
-    if ($smtp_port == 587) {
-        fwrite($socket, "STARTTLS\r\n");
-        $res = fgets($socket, 515);
-        if (substr($res, 0, 3) != "220") {
-            fclose($socket);
-            return false;
-        }
-        stream_socket_enable_crypto($socket, true, STREAM_CRYPTO_METHOD_TLS_CLIENT);
-        
-        // EHLO again after TLS negotiation
-        fwrite($socket, "EHLO " . $_SERVER['SERVER_NAME'] . "\r\n");
-        while ($line = fgets($socket, 515)) {
-            if (substr($line, 3, 1) == " ") break;
-        }
-    }
-    
-    // Auth login
-    fwrite($socket, "AUTH LOGIN\r\n");
-    $res = fgets($socket, 515);
-    if (substr($res, 0, 3) != "334") {
-        fclose($socket);
-        return false;
-    }
-    
-    fwrite($socket, base64_encode($smtp_username) . "\r\n");
-    $res = fgets($socket, 515);
-    if (substr($res, 0, 3) != "334") {
-        fclose($socket);
-        return false;
-    }
-    
-    fwrite($socket, base64_encode($smtp_password) . "\r\n");
-    $res = fgets($socket, 515);
-    if (substr($res, 0, 3) != "235") {
-        fclose($socket);
-        return false;
-    }
-    
-    // MAIL FROM / RCPT TO / DATA
-    fwrite($socket, "MAIL FROM:<" . $from_email . ">\r\n");
-    fgets($socket, 515);
-    
-    fwrite($socket, "RCPT TO:<" . $to . ">\r\n");
-    fgets($socket, 515);
-    
-    fwrite($socket, "DATA\r\n");
-    fgets($socket, 515);
-    
-    // Headers construction
-    $headers = "MIME-Version: 1.0\r\n";
-    $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
-    $headers .= "From: =?UTF-8?B?" . base64_encode($from_name) . "?= <" . $from_email . ">\r\n";
-    $headers .= "To: <" . $to . ">\r\n";
-    $headers .= "Subject: =?UTF-8?B?" . base64_encode($subject) . "?=\r\n";
-    $headers .= "Date: " . date('r') . "\r\n";
-    
-    fwrite($socket, $headers . "\r\n" . $message_html . "\r\n.\r\n");
-    $res = fgets($socket, 515);
-    
-    fwrite($socket, "QUIT\r\n");
-    fclose($socket);
-    
-    return substr($res, 0, 3) == "250";
+function log_error($msg) {
+    error_log($msg);
+    $log_file = __DIR__ . '/mail_error.log';
+    $timestamp = date('[Y-m-d H:i:s] ');
+    file_put_contents($log_file, $timestamp . $msg . "\n", FILE_APPEND);
 }
 
-// Send email using SMTP
-if (send_smtp_mail(MAIL_TO, $subject, $message, FROM_EMAIL, FROM_NAME, SMTP_HOST, SMTP_USER, SMTP_PASS, SMTP_PORT)) {
+/**
+ * Holt einen Access Token von der Microsoft Identity Platform via Delegated Permissions / Refresh Token Flow.
+ */
+function get_graph_access_token_by_refresh($tenant_id, $client_id, $client_secret) {
+    $token_file = __DIR__ . '/refresh_token.php';
+    if (!file_exists($token_file)) {
+        log_error("Microsoft Graph Auth Error: refresh_token.php not found.");
+        return null;
+    }
+    
+    $refresh_token = include $token_file;
+    if (empty($refresh_token)) {
+        log_error("Microsoft Graph Auth Error: refresh_token is empty.");
+        return null;
+    }
+    
+    $url = "https://login.microsoftonline.com/" . $tenant_id . "/oauth2/v2.0/token";
+    $post_data = http_build_query([
+        'grant_type' => 'refresh_token',
+        'client_id' => $client_id,
+        'client_secret' => $client_secret,
+        'refresh_token' => $refresh_token,
+        'scope' => 'https://graph.microsoft.com/.default'
+    ]);
+    
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        'Content-Type: application/x-www-form-urlencoded'
+    ]);
+    
+    $response = curl_exec($ch);
+    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+    
+    if ($http_code !== 200 || !$response) {
+        log_error("Microsoft Graph Auth Error (HTTP $http_code): " . $response);
+        return null;
+    }
+    
+    $data = json_decode($response, true);
+    
+    // Microsoft can return a new refresh token. If so, write it back to keep it updated.
+    if (isset($data['refresh_token']) && $data['refresh_token'] !== $refresh_token) {
+        $php_content = "<?php\nreturn '" . addslashes($data['refresh_token']) . "';\n";
+        file_put_contents($token_file, $php_content);
+    }
+    
+    return isset($data['access_token']) ? $data['access_token'] : null;
+}
+
+/**
+ * Sendet eine E-Mail über die Microsoft Graph API.
+ */
+function send_graph_mail($access_token, $from_email, $to_email, $subject, $message_html) {
+    $url = "https://graph.microsoft.com/v1.0/users/" . urlencode($from_email) . "/sendMail";
+    
+    $payload = [
+        'message' => [
+            'subject' => $subject,
+            'body' => [
+                'contentType' => 'HTML',
+                'content' => $message_html
+            ],
+            'toRecipients' => [
+                [
+                    'emailAddress' => [
+                        'address' => $to_email
+                    ]
+                ]
+            ]
+        ],
+        'saveToSentItems' => 'false'
+    ];
+    
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        'Authorization: Bearer ' . $access_token,
+        'Content-Type: application/json'
+    ]);
+    
+    $response = curl_exec($ch);
+    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+    
+    // Graph sendMail API returns 202 Accepted on success
+    if ($http_code === 202) {
+        return true;
+    }
+    
+    log_error("Microsoft Graph sendMail Error (HTTP $http_code): " . $response);
+    return false;
+}
+
+// 3. Send email using Microsoft Graph API with Delegated Refresh Token Flow
+$access_token = get_graph_access_token_by_refresh(O365_TENANT_ID, O365_CLIENT_ID, O365_CLIENT_SECRET);
+if ($access_token && send_graph_mail($access_token, FROM_EMAIL, MAIL_TO, $subject, $message)) {
     header('Location: /danke/');
     exit;
 } else {

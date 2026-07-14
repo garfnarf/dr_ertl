@@ -20,3 +20,10 @@ public/uploads/
 # System files
 .DS_Store
 Thumbs.db
+
+# Credentials and active refresh tokens
+src/refresh_token.php
+public/refresh_token.php
+src/credentials.php
+public/credentials.php
+public/mail_error.log
