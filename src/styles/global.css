@@ -211,11 +211,15 @@ body:not(.has-announcement) #main-nav {
   padding: 0 16px;
 }
 
-#main-menu li.active>a {
+#main-menu li.active>a,
+#mobile-menu li.active>a {
   color: var(--sage);
 }
 
-#main-menu a:hover {
+#main-menu li.active>a:hover,
+#main-menu a:hover,
+#mobile-menu li.active>a:hover,
+#mobile-menu a:hover {
   color: var(--sage-dark);
 }
 
@@ -247,9 +251,7 @@ body:not(.has-announcement) #main-nav {
   border-top: 1px solid var(--border);
 }
 
-#mobile-menu a:hover {
-  color: var(--sage-dark);
-}
+
 
 @media (max-width: 979px) {
   #main-menu {
