@@ -1,4 +1,11 @@
 <form class="rezept-form" name="rezeptformular" method="POST" action="{{ base_path }}/send_rezept.php">
+  <!-- Honeypot fields to prevent spam bots -->
+  <div style="position: absolute; left: -9999px; top: -9999px; width: 1px; height: 1px; overflow: hidden;" aria-hidden="true">
+    <input type="text" name="website" tabindex="-1" autocomplete="off" placeholder="Do not fill this out" />
+    <input type="text" name="nickname" tabindex="-1" autocomplete="off" placeholder="Do not fill this out" />
+    <input type="text" name="phone_work" tabindex="-1" autocomplete="off" placeholder="Do not fill this out" />
+  </div>
+  
   <div class="field">
     <label for="vorname">Vorname <span class="req">*</span></label>
     <input type="text" id="vorname" name="vorname" placeholder="Bitte geben Sie Ihren Vornamen an." required />

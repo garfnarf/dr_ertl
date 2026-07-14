@@ -27,6 +27,17 @@ $email = isset($_POST['email']) ? filter_var(trim($_POST['email']), FILTER_VALID
 $medikament = isset($_POST['medikament']) ? strip_tags(trim($_POST['medikament'])) : '';
 $einwilligung = isset($_POST['einwilligung']) ? true : false;
 
+// Honeypot spam prevention
+$hp_website = isset($_POST['website']) ? trim($_POST['website']) : '';
+$hp_nickname = isset($_POST['nickname']) ? trim($_POST['nickname']) : '';
+$hp_phone_work = isset($_POST['phone_work']) ? trim($_POST['phone_work']) : '';
+
+if ($hp_website !== '' || $hp_nickname !== '' || $hp_phone_work !== '') {
+    // Silent success redirect to trick spam bots
+    header('Location: /danke/');
+    exit;
+}
+
 // 2. Simple validation
 if (empty($vorname) || empty($nachname) || empty($geburtsdatum) || empty($medikament) || !$einwilligung) {
     http_response_code(400);
