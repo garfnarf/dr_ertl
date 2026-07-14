@@ -1,12 +1,23 @@
 <?php
 // send_rezept.php
-// PHP script to handle website prescription order submissions on All-Inkl.
+// Handles website prescription order submissions using authenticated SMTP.
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    // Redirect to home if accessed directly
     header('Location: /');
     exit;
 }
+
+// ==========================================
+// KONFIGURATION (Bitte hier Ihre Daten eintragen)
+// ==========================================
+define('SMTP_HOST', 'smtp.hosteurope.de');       // SMTP-Server von Host Europe
+define('SMTP_PORT', 587);                        // 587 (für TLS-Verschlüsselung) oder 465 (für SSL)
+define('SMTP_USER', 'rezeptformular@praxis-dr-ertl.de'); // Der Benutzername Ihres Postfachs bei Host Europe
+define('SMTP_PASS', 'IHR_POSTFACH_PASSWORT');    // Das Passwort des Postfachs
+define('MAIL_TO', 'info@praxis-dr-ertl.de');      // Die Empfänger-Adresse (Ihr Exchange / O365 Postfach)
+define('FROM_EMAIL', 'rezeptformular@praxis-dr-ertl.de'); // Muss dem SMTP-Postfach entsprechen
+define('FROM_NAME', 'Praxis-Website');
+// ==========================================
 
 // 1. Get and sanitize input fields
 $vorname = isset($_POST['vorname']) ? strip_tags(trim($_POST['vorname'])) : '';
@@ -22,9 +33,6 @@ if (empty($vorname) || empty($nachname) || empty($geburtsdatum) || empty($medika
     die("Bitte füllen Sie alle Pflichtfelder aus und stimmen Sie der Datenschutzerklärung zu.");
 }
 
-// 3. Email configuration
-// Change this email address to your Exchange / Office 365 reception address!
-$to = "info@praxis-dr-ertl.de"; 
 $subject = "Neue Rezeptbestellung via Website von " . $vorname . " " . $nachname;
 
 // Email body in HTML format
@@ -67,14 +75,89 @@ $message = "
 </html>
 ";
 
-// Headers setup
-$headers = "MIME-Version: 1.0" . "\r\n";
-$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-$headers .= "From: rezeptformular@praxis-dr-ertl.de" . "\r\n"; // Must be an email address from your domain on All-Inkl
+// SMTP socket connection helper function
+function send_smtp_mail($to, $subject, $message_html, $from_email, $from_name, $smtp_host, $smtp_username, $smtp_password, $smtp_port) {
+    $is_ssl = ($smtp_port == 465);
+    $socket = fsockopen(($is_ssl ? "ssl://" : "") . $smtp_host, $smtp_port, $errno, $errstr, 15);
+    if (!$socket) {
+        return false;
+    }
+    
+    fgets($socket, 515); // Greeting
+    
+    fwrite($socket, "EHLO " . $_SERVER['SERVER_NAME'] . "\r\n");
+    while ($line = fgets($socket, 515)) {
+        if (substr($line, 3, 1) == " ") break;
+    }
+    
+    // STARTTLS negotiation for Port 587
+    if ($smtp_port == 587) {
+        fwrite($socket, "STARTTLS\r\n");
+        $res = fgets($socket, 515);
+        if (substr($res, 0, 3) != "220") {
+            fclose($socket);
+            return false;
+        }
+        stream_socket_enable_crypto($socket, true, STREAM_CRYPTO_METHOD_TLS_CLIENT);
+        
+        // EHLO again after TLS negotiation
+        fwrite($socket, "EHLO " . $_SERVER['SERVER_NAME'] . "\r\n");
+        while ($line = fgets($socket, 515)) {
+            if (substr($line, 3, 1) == " ") break;
+        }
+    }
+    
+    // Auth login
+    fwrite($socket, "AUTH LOGIN\r\n");
+    $res = fgets($socket, 515);
+    if (substr($res, 0, 3) != "334") {
+        fclose($socket);
+        return false;
+    }
+    
+    fwrite($socket, base64_encode($smtp_username) . "\r\n");
+    $res = fgets($socket, 515);
+    if (substr($res, 0, 3) != "334") {
+        fclose($socket);
+        return false;
+    }
+    
+    fwrite($socket, base64_encode($smtp_password) . "\r\n");
+    $res = fgets($socket, 515);
+    if (substr($res, 0, 3) != "235") {
+        fclose($socket);
+        return false;
+    }
+    
+    // MAIL FROM / RCPT TO / DATA
+    fwrite($socket, "MAIL FROM:<" . $from_email . ">\r\n");
+    fgets($socket, 515);
+    
+    fwrite($socket, "RCPT TO:<" . $to . ">\r\n");
+    fgets($socket, 515);
+    
+    fwrite($socket, "DATA\r\n");
+    fgets($socket, 515);
+    
+    // Headers construction
+    $headers = "MIME-Version: 1.0\r\n";
+    $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+    $headers .= "From: =?UTF-8?B?" . base64_encode($from_name) . "?= <" . $from_email . ">\r\n";
+    $headers .= "To: <" . $to . ">\r\n";
+    $headers .= "Subject: =?UTF-8?B?" . base64_encode($subject) . "?=\r\n";
+    $headers .= "Date: " . date('r') . "\r\n";
+    
+    fwrite($socket, $headers . "\r\n" . $message_html . "\r\n.\r\n");
+    $res = fgets($socket, 515);
+    
+    fwrite($socket, "QUIT\r\n");
+    fclose($socket);
+    
+    return substr($res, 0, 3) == "250";
+}
 
-// Send email
-if (mail($to, $subject, $message, $headers)) {
-    // Redirect to relative /danke/ folder path on success
+// Send email using SMTP
+if (send_smtp_mail(MAIL_TO, $subject, $message, FROM_EMAIL, FROM_NAME, SMTP_HOST, SMTP_USER, SMTP_PASS, SMTP_PORT)) {
     header('Location: /danke/');
     exit;
 } else {
