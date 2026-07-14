@@ -711,6 +711,8 @@ h1.page-title,
 .service .img-col img {
   border-radius: 4px;
   width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
   object-fit: cover;
 }
 
