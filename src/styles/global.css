@@ -211,15 +211,11 @@ body:not(.has-announcement) #main-nav {
   padding: 0 16px;
 }
 
-#main-menu li.active>a,
-#mobile-menu li.active>a {
+#main-menu li.active>a {
   color: var(--sage);
 }
 
-#main-menu li.active>a:hover,
-#main-menu a:hover,
-#mobile-menu li.active>a:hover,
-#mobile-menu a:hover {
+#main-menu a:hover {
   color: var(--sage-dark);
 }
 
@@ -251,7 +247,9 @@ body:not(.has-announcement) #main-nav {
   border-top: 1px solid var(--border);
 }
 
-
+#mobile-menu a:hover {
+  color: var(--sage-dark);
+}
 
 @media (max-width: 979px) {
   #main-menu {
@@ -1018,6 +1016,7 @@ a.person:hover .btn {
     opacity: 0;
     transform: scale(0.85);
   }
+
   to {
     opacity: 1;
     transform: scale(1);
@@ -1039,24 +1038,60 @@ a.person:hover .btn {
   z-index: 10;
 }
 
-.galerie img:nth-child(1) { animation-delay: 0.05s; }
-.galerie img:nth-child(2) { animation-delay: 0.1s; }
-.galerie img:nth-child(3) { animation-delay: 0.15s; }
-.galerie img:nth-child(4) { animation-delay: 0.2s; }
-.galerie img:nth-child(5) { animation-delay: 0.25s; }
-.galerie img:nth-child(6) { animation-delay: 0.3s; }
-.galerie img:nth-child(7) { animation-delay: 0.35s; }
-.galerie img:nth-child(8) { animation-delay: 0.4s; }
-.galerie img:nth-child(9) { animation-delay: 0.45s; }
-.galerie img:nth-child(10) { animation-delay: 0.5s; }
-.galerie img:nth-child(11) { animation-delay: 0.55s; }
-.galerie img:nth-child(12) { animation-delay: 0.6s; }
+.galerie img:nth-child(1) {
+  animation-delay: 0.05s;
+}
+
+.galerie img:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.galerie img:nth-child(3) {
+  animation-delay: 0.15s;
+}
+
+.galerie img:nth-child(4) {
+  animation-delay: 0.2s;
+}
+
+.galerie img:nth-child(5) {
+  animation-delay: 0.25s;
+}
+
+.galerie img:nth-child(6) {
+  animation-delay: 0.3s;
+}
+
+.galerie img:nth-child(7) {
+  animation-delay: 0.35s;
+}
+
+.galerie img:nth-child(8) {
+  animation-delay: 0.4s;
+}
+
+.galerie img:nth-child(9) {
+  animation-delay: 0.45s;
+}
+
+.galerie img:nth-child(10) {
+  animation-delay: 0.5s;
+}
+
+.galerie img:nth-child(11) {
+  animation-delay: 0.55s;
+}
+
+.galerie img:nth-child(12) {
+  animation-delay: 0.6s;
+}
 
 @media (max-width: 767px) {
   .galerie {
     grid-template-columns: repeat(auto-fit, 350px);
     justify-content: center;
   }
+
   .galerie img {
     width: 350px;
   }
@@ -1458,6 +1493,10 @@ a.kbox:hover i {
   line-height: 1.9;
 }
 
+.footer-cols li a:hover {
+  color: var(--sage-dark);
+}
+
 .footer-cols .mecum img {
   width: 220px;
   margin-bottom: 4px;
@@ -1487,13 +1526,18 @@ a.kbox:hover i {
 
 /* ---------- News lists ---------- */
 /* Markdown-Listen in Aktuelles-Einträgen als Icon-Listen darstellen */
-.news ul { list-style: none; margin-bottom: 15px; }
+.news ul {
+  list-style: none;
+  margin-bottom: 15px;
+}
+
 .news ul li {
   position: relative;
   padding: 5px 0 5px 32px;
   font-family: var(--font-alt);
   color: var(--text);
 }
+
 .news ul li::before {
   font-family: 'Font Awesome 5 Free';
   font-weight: 900;
@@ -1503,5 +1547,11 @@ a.kbox:hover i {
   top: 5px;
   font-size: 17px;
 }
-.news[data-icon='chevron'] ul li::before { content: '\f054'; }
-.news[data-icon='warnung'] ul li::before { content: '\f071'; }
+
+.news[data-icon='chevron'] ul li::before {
+  content: '\f054';
+}
+
+.news[data-icon='warnung'] ul li::before {
+  content: '\f071';
+}
