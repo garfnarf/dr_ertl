@@ -72,12 +72,12 @@ def get_base_path(route):
 def make_relative_nav(base_path, terminland_url):
     """Generates relative nav links for base_path."""
     return [
-        { 'label': 'Aktuelles', 'href': f"{base_path}/index.html", 'key': 'aktuelles' },
-        { 'label': 'Über Uns', 'href': f"{base_path}/ueber-uns/index.html", 'key': 'ueber-uns' },
-        { 'label': 'Praxisteam', 'href': f"{base_path}/praxisteam/index.html", 'key': 'praxisteam' },
-        { 'label': 'Leistungen', 'href': f"{base_path}/leistungen/index.html", 'key': 'leistungen' },
+        { 'label': 'Aktuelles', 'href': f"{base_path}/", 'key': 'aktuelles' },
+        { 'label': 'Über Uns', 'href': f"{base_path}/ueber-uns/", 'key': 'ueber-uns' },
+        { 'label': 'Praxisteam', 'href': f"{base_path}/praxisteam/", 'key': 'praxisteam' },
+        { 'label': 'Leistungen', 'href': f"{base_path}/leistungen/", 'key': 'leistungen' },
         { 'label': 'Termine', 'href': terminland_url, 'key': 'termine' },
-        { 'label': 'Anfahrt & Kontakt', 'href': f"{base_path}/kontakt/index.html", 'key': 'kontakt' },
+        { 'label': 'Anfahrt & Kontakt', 'href': f"{base_path}/kontakt/", 'key': 'kontakt' },
     ]
 
 def make_relative(path, base_path):

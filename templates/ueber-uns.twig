@@ -55,10 +55,10 @@
   <div class="container leistungen-intro">
     <h2>Unsere Leistungen</h2>
     <p>Erfahren Sie mehr über die Leistungen, die wir anbieten.</p>
-    {% with linkTo=base_path ~ '/leistungen/index.html', limit=8 %}
+    {% with linkTo=base_path ~ '/leistungen/', limit=8 %}
       {% include "components/leistungen_grid.twig" %}
     {% endwith %}
-    <p style="margin-top: 30px;"><a class="btn" href="{{ base_path }}/leistungen/index.html">Zu unseren Leistungen</a></p>
+    <p style="margin-top: 30px;"><a class="btn" href="{{ base_path }}/leistungen/">Zu unseren Leistungen</a></p>
   </div>
 
   <div class="container leistungen-intro" style="padding-top: 20px;">
@@ -68,7 +68,7 @@
   </div>
   {% include "components/team_carousel.twig" %}
   <div class="container" style="padding: 30px 10px; text-align: center;">
-    <a class="btn" href="{{ base_path }}/praxisteam/index.html">Zu unserem Team</a>
+    <a class="btn" href="{{ base_path }}/praxisteam/">Zu unserem Team</a>
   </div>
 
   <div class="container leistungen-intro" style="padding-top: 30px;">
@@ -85,7 +85,7 @@
         </div>
       {% endfor %}
     </div>
-    <p><a class="btn" href="{{ base_path }}/kontakt/index.html">Kontaktieren Sie uns!</a></p>
+    <p><a class="btn" href="{{ base_path }}/kontakt/">Kontaktieren Sie uns!</a></p>
   </div>
 
   <script>
