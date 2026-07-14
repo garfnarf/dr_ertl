@@ -1,0 +1,41 @@
+{% extends "base.twig" %}
+
+{% block content %}
+  <div class="cv-titlebar">
+    <div class="container">
+      <h1>{{ arzt.data.name }}</h1>
+      <a class="btn" href="{{ base_path }}/praxisteam/index.html#Arzteteam">Zurück zum Team</a>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="cv-intro">
+      <div class="photo">
+        <img 
+          src="{{ arzt.data.fotoQuadrat | rel(base_path) }}" 
+          srcset="{{ arzt.data.fotoQuadrat | rel_size(base_path, '300w') }} 300w, {{ arzt.data.fotoQuadrat | rel_size(base_path, '600w') }} 600w"
+          sizes="300px"
+          alt="{{ arzt.data.name }}" 
+        />
+      </div>
+      <div>
+        <div class="subtitle">{{ arzt.data.untertitel }}</div>
+        <h2>{{ arzt.data.name }}</h2>
+        <div class="cv-quote">
+          <div class="qmark">&ldquo;</div>
+          <p>{{ arzt.data.zitat }}</p>
+          <div class="qmark end">&rdquo;</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container timeline">
+    {% for s in arzt.data.stationen %}
+      <div class="row">
+        <div class="zeitraum">{{ s.zeitraum }}</div>
+        <div class="text">{{ s.text }}</div>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

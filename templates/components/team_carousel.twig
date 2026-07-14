@@ -1,0 +1,49 @@
+<div class="team-carousel" data-carousel>
+  {% for f in fotos %}
+    <img 
+      src="{{ f.src | rel(base_path) }}" 
+      srcset="{{ f.src | rel_size(base_path, '190w') }} 190w, {{ f.src | rel_size(base_path, '380w') }} 380w"
+      sizes="(max-width: 767px) 50vw, 190px"
+      alt="{{ f.alt }}" 
+      loading="lazy" 
+    />
+  {% endfor %}
+</div>
+
+<script>
+  document.querySelectorAll('[data-carousel]').forEach((el) => {
+    const originalImgs = el.querySelectorAll('img');
+    if (originalImgs.length === 0) return;
+    
+    // Clone up to 6 images to seamlessly loop at the end
+    const cloneCount = Math.min(originalImgs.length, 6);
+    for (let i = 0; i < cloneCount; i++) {
+      const clone = originalImgs[i].cloneNode(true);
+      el.appendChild(clone);
+    }
+    
+    const allImgs = el.querySelectorAll('img');
+    let offset = 0;
+    
+    setInterval(() => {
+      offset++;
+      
+      // Enable smooth sliding
+      allImgs.forEach((img) => {
+        img.style.transition = 'transform 0.6s ease';
+        img.style.transform = `translateX(-${offset * 100}%)`;
+      });
+      
+      // When reaching the first cloned image, snap back to start without transition
+      if (offset === originalImgs.length) {
+        setTimeout(() => {
+          offset = 0;
+          allImgs.forEach((img) => {
+            img.style.transition = 'none';
+            img.style.transform = `translateX(0)`;
+          });
+        }, 600); // matches the 0.6s transition duration
+      }
+    }, 3500);
+  });
+</script>

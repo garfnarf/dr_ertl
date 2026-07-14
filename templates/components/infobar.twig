@@ -1,0 +1,48 @@
+<div class="infobar">
+  <div class="container">
+    <div class="infobar-inner {% if covidUpdate %}cols-4{% endif %}">
+      <a class="iconbox" href="https://www.google.com/maps?q={{ maps_query }}" target="_blank" rel="noopener">
+        <i class="fas fa-map-marker-alt"></i>
+        <div>
+          <div class="ib-title">{{ praxis.adresse.strasse }}</div>
+          <div class="ib-sub">{{ praxis.adresse.ort }}</div>
+        </div>
+      </a>
+      <a class="iconbox" href="tel:{{ praxis.telefon | tel }}">
+        <i class="fas fa-phone-alt"></i>
+        <div>
+          <div class="ib-title">{{ praxis.telefon }}</div>
+          <div class="ib-sub">Telefon</div>
+        </div>
+      </a>
+      <a class="iconbox" href="tel:{{ praxis.rezepthotline | tel }}">
+        <i class="far fa-file-alt"></i>
+        <div>
+          <div class="ib-title">{{ praxis.rezepthotline }}</div>
+          <div class="ib-sub">Rezepthotline</div>
+        </div>
+      </a>
+      {% if covidUpdate %}
+        <a class="iconbox" href="{{ base_path }}/index.html#covid-impfung">
+          <i class="fab fa-medrt"></i>
+          <div>
+            <div class="ib-title">Update: COVID-19</div>
+            <div class="ib-sub">Aktuelle Infos mit einem Klick!</div>
+          </div>
+        </a>
+      {% endif %}
+    </div>
+    {% if hours %}
+      <div class="hoursbar">
+        {% for s in praxis.sprechzeiten %}
+          <div class="day">
+            <b>{{ s.tag }}</b>
+            {% for z in s.zeiten.split('|') %}
+              <span>{{ z | trim }}</span>
+            {% endfor %}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</div>

@@ -1,0 +1,110 @@
+{% extends "base.twig" %}
+
+{% block content %}
+  {% with covidUpdate=true %}
+    {% include "components/infobar.twig" %}
+  {% endwith %}
+
+  <div class="galerie">
+    {% for src in ueber_uns.galerie %}
+      <img 
+        src="{{ src | rel(base_path) }}" 
+        srcset="{{ src | rel_size(base_path, '300w') }} 300w, {{ src | rel_size(base_path, '350w') }} 350w, {{ src | rel_size(base_path, '600w') }} 600w, {{ src | rel_size(base_path, '1000w') }} 1000w"
+        sizes="(max-width: 767px) 350px, 300px"
+        alt="Einblick in die Praxis" 
+        loading="lazy" 
+      />
+    {% endfor %}
+  </div>
+
+  <div class="container">
+    <div class="zahlen">
+      {% for z in ueber_uns.zahlen %}
+        <div class="zahl">
+          <div class="wert" data-count="{{ z.wert }}">{{ z.wert }}</div>
+          <div class="text">{{ z.text }}</div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="welcome-area">
+    <div class="container">
+      <div class="welcome-cols">
+        <div class="welcome-box">
+          <h1>{{ ueber_uns.willkommen.titel }}</h1>
+          <h2>{{ ueber_uns.willkommen.untertitel }}</h2>
+          {% for p in ueber_uns.willkommen.text.split('\n\n') %}
+            <p>{{ p }}</p>
+          {% endfor %}
+        </div>
+        <div class="hours-box">
+          <h2>Sprechzeiten</h2>
+          <div class="subhead">Wir freuen uns auf Sie!</div>
+          {% for s in praxis.sprechzeiten %}
+            <div class="day">
+              <b>{{ s.tag }}</b>
+              <span>{{ s.zeiten }}</span>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container leistungen-intro">
+    <h2>Unsere Leistungen</h2>
+    <p>Erfahren Sie mehr über die Leistungen, die wir anbieten.</p>
+    {% with linkTo=base_path ~ '/leistungen/index.html', limit=8 %}
+      {% include "components/leistungen_grid.twig" %}
+    {% endwith %}
+    <p style="margin-top: 30px;"><a class="btn" href="{{ base_path }}/leistungen/index.html">Zu unseren Leistungen</a></p>
+  </div>
+
+  <div class="container leistungen-intro" style="padding-top: 20px;">
+    <h2>Unser Team</h2>
+    <div style="color: var(--sage); font-weight: 600; margin-bottom: 8px;">Wir sind für Sie da und freuen uns auf Sie!</div>
+    <p>Lernen Sie unser kompetentes Praxis- und Ärzteteam kennen.</p>
+  </div>
+  {% include "components/team_carousel.twig" %}
+  <div class="container" style="padding: 30px 10px; text-align: center;">
+    <a class="btn" href="{{ base_path }}/praxisteam/index.html">Zu unserem Team</a>
+  </div>
+
+  <div class="container leistungen-intro" style="padding-top: 30px;">
+    <h2>Weitere Informationen</h2>
+    <p>{{ ueber_uns.weitereInfos.text }}</p>
+    <div class="infoboxen">
+      {% for b in ueber_uns.weitereInfos.boxen %}
+        <div class="infobox2">
+          <div class="icon-frame"><i class="{{ b.icon }}"></i></div>
+          <div>
+            <h3>{{ b.titel }}</h3>
+            <p>{{ b.text }}</p>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    <p><a class="btn" href="{{ base_path }}/kontakt/index.html">Kontaktieren Sie uns!</a></p>
+  </div>
+
+  <script>
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target;
+        io.unobserve(el);
+        const target = parseInt(el.dataset.count || '0', 10);
+        const start = performance.now();
+        const dur = 1800;
+        const tick = (now) => {
+          const t = Math.min((now - start) / dur, 1);
+          el.textContent = String(Math.round(target * t));
+          if (t < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      });
+    });
+    document.querySelectorAll('[data-count]').forEach((el) => io.observe(el));
+  </script>
+{% endblock %}

@@ -1,0 +1,95 @@
+{% extends "base.twig" %}
+
+{% block content %}
+  <div class="container">
+    <div class="kontakt-cols">
+      <div class="photo">
+        <img 
+          src="{{ base_path }}/uploads/praxis-7.jpg" 
+          srcset="{{ '/uploads/praxis-7.jpg' | rel_size(base_path, '310w') }} 310w, {{ '/uploads/praxis-7.jpg' | rel_size(base_path, '620w') }} 620w"
+          sizes="310px"
+          alt="Unsere Praxis" 
+        />
+      </div>
+      <div>
+        <a class="kbox kbox-row" href="tel:{{ praxis.telefon | tel }}">
+          <i class="fas fa-phone-alt"></i>
+          <div>
+            <h3>Telefon</h3>
+            <p>{{ praxis.telefon }}</p>
+          </div>
+        </a>
+        <a class="kbox kbox-row" href="tel:{{ praxis.rezepthotline | tel }}">
+          <i class="far fa-file-alt"></i>
+          <div>
+            <h3>Hotline für Rezepte</h3>
+            <p>{{ praxis.rezepthotline }}</p>
+          </div>
+        </a>
+        <a class="kbox kbox-row" href="tel:{{ praxis.fax | tel }}">
+          <i class="fas fa-fax"></i>
+          <div>
+            <h3>Fax</h3>
+            <p>{{ praxis.fax }}</p>
+          </div>
+        </a>
+        <p class="khinweis">Bitte <b>keine Anfragen</b> per eMail, dieselben werden aus Datenschutzgründen nicht bearbeitet.</p>
+      </div>
+      <div>
+        <div class="kbox">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+            <i class="far fa-clock" style="margin-bottom: 0; display: inline-block; font-size: 34px; color: var(--sage);"></i>
+            <h3 style="margin-bottom: 0;">Sprechzeiten</h3>
+          </div>
+          {% for s in praxis.sprechzeiten %}
+            <div class="day">
+              <b>{{ s.tag }}</b>
+              <span>{{ s.zeiten }}</span>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <a class="kbox kbox-row" href="https://www.google.com/maps?q={{ maps_query }}" target="_blank" rel="noopener" style="margin-top: 10px;">
+      <i class="fas fa-map-marker-alt"></i>
+      <div>
+        <h3>{{ praxis.adresse.strasse }}</h3>
+        <p>{{ praxis.adresse.ort }}</p>
+      </div>
+    </a>
+
+    <div class="map-wrap">
+      <div class="map-mask" id="map-mask">
+        <button class="btn" id="map-load">Google Maps laden *</button>
+      </div>
+      <p class="map-caption">
+        * Beim Laden der Karte akzeptieren Sie die Datenschutzbedingungen von Google.
+        <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Mehr erfahren</a>
+      </p>
+    </div>
+
+    <div class="kbox" style="margin: 35px 0 60px;">
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+        <i class="fas fa-info-circle" style="margin-bottom: 0; display: inline-block;"></i>
+        <h3 style="margin-bottom: 0;">Weitere Informationen</h3>
+      </div>
+      <p>
+        Sollten Sie außerhalb unserer Sprechzeiten einen ärztlichen Dienst benötigen, wenden Sie sich bitte
+        an den ärztlichen Bereitschaftsdienst unter der Rufnummer <a href="tel:116117" style="color: inherit; font-weight: 600;">116117</a>.
+        <b><u>Im Notfall wählen Sie bitte immer die <a href="tel:112" style="color: inherit; text-decoration: underline;">112</a></u>!</b>
+      </p>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('map-load')?.addEventListener('click', () => {
+      const mask = document.getElementById('map-mask');
+      const iframe = document.createElement('iframe');
+      iframe.src = `https://www.google.com/maps?q={{ maps_query }}&output=embed`;
+      iframe.loading = 'lazy';
+      iframe.referrerPolicy = 'no-referrer-when-downgrade';
+      mask.replaceWith(iframe);
+    });
+  </script>
+{% endblock %}

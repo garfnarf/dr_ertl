@@ -1,0 +1,33 @@
+name: Dr. med. Ludwig Ertl
+beschreibung: Facharzt für Innere Medizin, Leistungsschwerpunkte kardiologische und
+  angiologische Diagnostik und Therapie
+untertitel: Facharzt für Innere Medizin, Leistungsschwerpunkte kardiologische und
+  angiologische Diagnostik und Therapie
+foto: /uploads/ludwig-ertl.jpg
+fotoQuadrat: /uploads/ludwig-ertl-quadrat.jpg
+reihenfolge: 30
+zitat: Seit 1997 bin ich als fachärztlicher Internist in Oberhaching niedergelassen.
+  Meine Leistungsschwerpunkte liegen in der Diagnostik und Therapie von Herz- und
+  Gefäßerkrankungen. Nach Abschluss des Studiums 1983 an der LMU München verbrachte
+  ich über zwei Jahre in der Gefäßmedizin am Klinikum Neuperlach. Anschließend wechselte
+  ich in die Innere Medizin. Hier war ich über sieben Jahre ärztlicher Leiter der
+  internistischen Intensivstation, wodurch ich eine umfassende Ausbildung in der Notfallmedizin
+  erhielt. Seitdem hat sich ein großes Netzwerk medizinischer Kontakte gebildet.
+stationen:
+- zeitraum: '1997'
+  text: Niederlassung in Oberhaching als fachärztlicher Internist mit den Schwerpunkten
+    Kardiologie und Angiologie
+- zeitraum: 1990-1997
+  text: Leiter der kardiologischen Intensivstation
+- zeitraum: 1986-1997
+  text: Assistenzarzt in den Abteilungen Endokrinologie, Herzultraschallabteilung,
+    Gastroenterologie des Städtischen Krankenhaus Neuperlach
+- zeitraum: '1987'
+  text: Promotion „magna cum laude“
+- zeitraum: 1983-1986
+  text: Assistenzarzt in der Gefäßmedizin und in der Kardiologie im Städtischen Klinikum
+    Neuperlach
+- zeitraum: '1983'
+  text: Staatsexamen der Medizin an der LMU München
+- zeitraum: '1977'
+  text: Immatrikulation an der LMU München

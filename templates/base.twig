@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{ title }}</title>
+    <meta name="description" content="{{ description | default('Fach- und Hausarztpraxis Dres. Ertl in Oberhaching – Allgemeinmedizin, Innere Medizin, Kardiologie und mehr.') }}" />
+    <link rel="icon" href="{{ base_path }}/favicon.png" type="image/png" />
+    <style>
+      {{ global_css
+         | replace("url('fonts/", "url('" ~ base_path ~ "/fonts/")
+         | replace("url('uploads/", "url('" ~ base_path ~ "/uploads/")
+         | replace("url(../webfonts/", "url(" ~ base_path ~ "/fa/webfonts/")
+         | safe }}
+    </style>
+  </head>
+  <body class="{% if praxis.announcement.sichtbar %}has-announcement{% endif %}">
+    {% if praxis.announcement.sichtbar %}
+      <a class="announcement" href="{{ praxis.announcement.url }}" target="_blank" rel="noopener">
+        Termine können Sie nun online buchen
+      </a>
+    {% endif %}
+
+    <div id="page-header">
+      <div class="entry-header">
+        <a class="logo-img" href="{{ base_path }}/index.html" title="{{ praxis.name }}">
+          <img src="{{ base_path }}/uploads/logo.png" alt="{{ praxis.name }}" width="550" />
+        </a>
+      </div>
+      <nav id="main-nav">
+        <ul id="main-menu">
+          {% for item in nav %}
+            <li class="{% if active == item.key %}active{% endif %}">
+              <a href="{{ item.href }}" {% if item.href.startswith('http') %}target="_blank" rel="noopener"{% endif %}>{{ item.label }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+        <button class="mobile-menu-btn" aria-label="Menü öffnen" onclick="document.getElementById('main-nav').classList.toggle('open')">
+          <i class="fas fa-chevron-down"></i>
+        </button>
+        <ul id="mobile-menu">
+          {% for item in nav %}
+            <li class="{% if active == item.key %}active{% endif %}">
+              <a href="{{ item.href }}">{{ item.label }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      </nav>
+    </div>
+
+    {% if praxis.announcement.sichtbar %}
+      <a class="announcement announcement-mobile" href="{{ praxis.announcement.url }}" target="_blank" rel="noopener">
+        Termine können Sie nun online buchen
+      </a>
+    {% endif %}
+
+    {% block content %}{% endblock %}
+
+    <footer id="page-footer">
+      <div class="footer-boxes">
+        <a class="iconbox" href="https://www.google.com/maps?q={{ maps_query }}" target="_blank" rel="noopener">
+          <i class="fas fa-map-marker-alt"></i>
+          <div>
+            <div class="ib-title">{{ praxis.adresse.strasse }}</div>
+            <div class="ib-sub">{{ praxis.adresse.ort }}</div>
+          </div>
+        </a>
+        <a class="iconbox" href="tel:{{ praxis.telefon | tel }}">
+          <i class="fas fa-phone-alt"></i>
+          <div>
+            <div class="ib-title">Telefon</div>
+            <div class="ib-sub">{{ praxis.telefon }}</div>
+          </div>
+        </a>
+        <div class="iconbox">
+          <i class="far fa-clock"></i>
+          <div>
+            <div class="ib-title">Sprechstunde</div>
+            <div class="ib-sub">{{ praxis.sprechstundeKurz }}</div>
+          </div>
+        </div>
+      </div>
+      <div class="footer-disclaimer">{{ praxis.emailHinweis }}</div>
+      <hr class="footer-divider" />
+      <div class="footer-cols">
+        <div>
+          <h2>Weitere Informationen</h2>
+          <ul>
+            <li><a href="{{ base_path }}/kontakt/index.html">Anfahrt &amp; Kontakt</a></li>
+            <li><a href="{{ base_path }}/datenschutz/index.html">Datenschutz</a></li>
+            <li><a href="{{ base_path }}/impressum/index.html">Impressum</a></li>
+          </ul>
+        </div>
+        <div class="mecum">
+          <h2>Wir bilden aus!</h2>
+          <img src="{{ base_path }}/uploads/mecum.png" alt="MeCuM LMU – akademische Lehrpraxis" />
+          <div class="caption">akademische Lehrpraxis</div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="container">© {{ current_year }} {{ praxis.name }}</div>
+      </div>
+    </footer>
+  </body>
+</html>

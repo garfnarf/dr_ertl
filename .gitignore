@@ -1,4 +1,22 @@
-node_modules/
-dist/
-.astro/
+# Python build artifacts
+__pycache__/
+*.pyc
+
+# Local scratch/temporary files
+scratch/
+
+# Built static pages
+public/**/*.html
+public/index.html
+
+# Generated assets
+public/fonts/
+public/global.css
+
+# Generated uploads (responsive images)
+# All original uploads are in src/uploads/
+public/uploads/
+
+# System files
 .DS_Store
+Thumbs.db

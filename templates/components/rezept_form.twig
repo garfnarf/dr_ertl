@@ -1,0 +1,30 @@
+<form class="rezept-form" name="rezeptformular" method="POST" action="{{ base_path }}/danke/index.html">
+  <div class="field">
+    <label for="vorname">Vorname <span class="req">*</span></label>
+    <input type="text" id="vorname" name="vorname" placeholder="Bitte geben Sie Ihren Vornamen an." required />
+  </div>
+  <div class="field">
+    <label for="nachname">Name <span class="req">*</span></label>
+    <input type="text" id="nachname" name="nachname" placeholder="Bitte geben Sie Ihren Nachnamen an." required />
+  </div>
+  <div class="field">
+    <label for="geburtstag">Geburtsdatum <span class="req">*</span></label>
+    <input type="text" id="geburtstag" name="geburtsdatum" placeholder="Bitte geben Sie Ihr Geburtsdatum an." required />
+  </div>
+  <div class="field">
+    <label for="email">E-Mail</label>
+    <input type="email" id="email" name="email" placeholder="Bitte geben Sie Ihre Email-Adresse an." />
+  </div>
+  <div class="field">
+    <label for="nachricht">Gewünschtes Medikament inkl. Dosierung (mg) <span class="req">*</span></label>
+    <textarea id="nachricht" name="medikament" placeholder="Bitte geben Sie hier ein, für welches Medikament wir Ihnen den Rezept zur Abholung vorbereiten dürfen." required></textarea>
+  </div>
+  <div class="field consent">
+    <span class="consent-label">Einwilligungserklärung gemäß DSGVO in die Verarbeitung von Daten durch die Fach- und Hausarztpraxis Dres. Ertl <span class="req">*</span></span>
+    <label style="font-weight:400; margin-top:6px;">
+      <input type="checkbox" name="einwilligung" value="ja" required />
+      Hiermit willige ich ein, dass meine oben angegebenen personenbezogenen Daten zur Übermittlung an die Praxis und zur Erstellung des Rezepts durch die dazu berechtigten Praxismitarbeiter der Fach- und Hausarztpraxis Dres. Ertl genutzt werden. Vorname, Name, Geburtsdatum, E-Mail-Adresse und gewünschtes Medikament werden zum Zweck der Rezepterstellung erhoben und zudem auf den Servern der Fach- und Hausarztpraxis Dres. Ertl gespeichert. Sollten weitere Daten benötigt werden, braucht es dafür separat wieder die Zustimmung des Nutzers. Eine Löschung der erhobenen Daten erfolgt nach 3 Monaten. <strong>Widerrufsrecht:</strong> Der Unterzeichnende hat das Recht, diese Einwilligung jederzeit ohne Angabe einer Begründung mit Wirkung für die Zukunft zu widerrufen. Hierfür genügt eine E-Mail an info@praxis-dr-ertl.de. Die Rechtmäßigkeit der aufgrund der Einwilligung bis zum Widerruf erfolgten Verarbeitung wird durch den Widerruf nicht berührt. <strong>Folgen bei Nicht-Einwilligung:</strong> Der Unterzeichnende hat das Recht, dieser Einwilligungserklärung nicht zuzustimmen – da unser Dienst jedoch auf die Erhebung und Verarbeitung der zu Anfang genannten Daten angewiesen ist, würde eine Nicht-Einwilligung eine Inanspruchnahme des Dienstes ausschließen.
+    </label>
+  </div>
+  <button type="submit" class="btn">Absenden</button>
+</form>

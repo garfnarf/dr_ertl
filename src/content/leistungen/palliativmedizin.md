@@ -1,9 +1,0 @@
----
-titel: Palliativmedizin
-untertitel: Beratung und Behandlung schwer kranker Patienten am Lebensende
-icon: fas fa-hand-holding-heart
-bild: /uploads/palliativ.jpg
-reihenfolge: 60
----
-- Linderung von Beschwerden
-- Planung der Versorgung im häuslichen oder stationären Umfeld

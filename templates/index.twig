@@ -1,0 +1,29 @@
+{% extends "base.twig" %}
+
+{% block content %}
+  {% with hours=true %}
+    {% include "components/infobar.twig" %}
+  {% endwith %}
+
+  {% for item in aktuelles %}
+    <section class="section" id="{{ item.id }}">
+      <div class="container">
+        <div class="news" data-icon="{{ item.data.listenIcon }}">
+          <div class="kicker">{{ item.data.kicker }}</div>
+          <h4>{{ item.data.titel }}</h4>
+          {{ item.content | safe }}
+          {% if item.data.rezeptformular %}
+            {% include "components/rezept_form.twig" %}
+          {% endif %}
+          {% if item.data.button %}
+            <p style="margin-top: 22px;">
+              <a class="btn" href="{{ item.data.button.url }}" {% if item.data.button.url.startswith('http') %}target="_blank" rel="noopener"{% endif %}>
+                {{ item.data.button.text }}
+              </a>
+            </p>
+          {% endif %}
+        </div>
+      </div>
+    </section>
+  {% endfor %}
+{% endblock %}
