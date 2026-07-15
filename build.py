@@ -124,6 +124,35 @@ def minify_css(css):
     css = re.sub(r'\s+', ' ', css)
     return css.strip()
 
+def minify_html(html):
+    """Minifies HTML code while preserving the contents of <script> and <style> tags."""
+    placeholders = []
+    
+    def placeholder_repl(match):
+        placeholders.append(match.group(0))
+        return f"<!--HTML_MINIFIER_PLACEHOLDER_{len(placeholders)-1}-->"
+    
+    # Temporarily extract script and style tags
+    pattern = re.compile(r'<(script|style)\b[^>]*>.*?</\1>', re.DOTALL | re.IGNORECASE)
+    html_with_placeholders = pattern.sub(placeholder_repl, html)
+    
+    # 1. Remove standard HTML comments (excluding our placeholders)
+    comment_pattern = re.compile(r'<!--(?!HTML_MINIFIER_PLACEHOLDER_).*?-->', re.DOTALL)
+    html_minified = comment_pattern.sub('', html_with_placeholders)
+    
+    # 2. Collapse consecutive whitespace characters
+    html_minified = re.sub(r'\s+', ' ', html_minified)
+    
+    # 3. Remove whitespace between tags
+    html_minified = re.sub(r'>\s+<', '><', html_minified)
+    
+    # Restore script and style tags
+    for i, content in enumerate(placeholders):
+        placeholder_str = f"<!--HTML_MINIFIER_PLACEHOLDER_{i}-->"
+        html_minified = html_minified.replace(placeholder_str, content)
+        
+    return html_minified.strip()
+
 def save_image_with_quality(src_path, dest_path, quality=80):
     """Saves an image with a specific compression quality (lossless optimize for PNG)."""
     from PIL import Image
@@ -408,6 +437,7 @@ def main():
             **page['context']
         }
         rendered_html = template.render(ctx)
+        minified_html = minify_html(rendered_html)
         
         # Write to public/route/index.html or public/filename.html
         if page['route'] == '':
@@ -421,7 +451,7 @@ def main():
             target_file = os.path.join(target_dir, 'index.html')
             
         with open(target_file, 'w', encoding='utf-8') as f:
-            f.write(rendered_html)
+            f.write(minified_html)
         print(f"Generated {target_file}")
         
     # 7. Render dynamic doctor bio pages
@@ -456,12 +486,13 @@ def main():
             'arzt': arzt
         }
         rendered_html = template.render(ctx)
+        minified_html = minify_html(rendered_html)
         
         target_dir = os.path.join(OUTPUT_DIR, 'praxisteam', slug)
         os.makedirs(target_dir, exist_ok=True)
         target_file = os.path.join(target_dir, 'index.html')
         with open(target_file, 'w', encoding='utf-8') as f:
-            f.write(rendered_html)
+            f.write(minified_html)
         print(f"Generated {target_file}")
         
     # 8. Copy local fonts to output
