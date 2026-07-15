@@ -15,7 +15,7 @@
           src="{{ arzt.data.fotoQuadrat | rel(base_path) }}" 
           srcset="{{ arzt.data.fotoQuadrat | rel_size(base_path, '300w') }} 300w, {{ arzt.data.fotoQuadrat | rel_size(base_path, '600w') }} 600w"
           sizes="300px"
-          alt="{{ arzt.data.name }}" 
+          alt="{{ arzt.data.foto_alt | default(arzt.data.name) }}" 
         />
       </div>
       <div>

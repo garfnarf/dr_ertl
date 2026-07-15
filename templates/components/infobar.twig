@@ -1,21 +1,21 @@
 <div class="infobar">
   <div class="container">
     <div class="infobar-inner {% if covidUpdate %}cols-4{% endif %}">
-      <a class="iconbox" href="https://www.google.com/maps?q={{ maps_query }}" target="_blank" rel="noopener">
+      <a class="iconbox" href="https://www.google.com/maps?q={{ maps_query }}" target="_blank" rel="noopener" aria-label="Adresse auf Google Maps anzeigen: {{ praxis.adresse.strasse }}, {{ praxis.adresse.ort }}">
         <i class="fas fa-map-marker-alt"></i>
         <div>
           <div class="ib-title">{{ praxis.adresse.strasse }}</div>
           <div class="ib-sub">{{ praxis.adresse.ort }}</div>
         </div>
       </a>
-      <a class="iconbox" href="tel:{{ praxis.telefon | tel }}">
+      <a class="iconbox" href="tel:{{ praxis.telefon | tel }}" aria-label="Praxis anrufen: {{ praxis.telefon }}">
         <i class="fas fa-phone-alt"></i>
         <div>
           <div class="ib-title">{{ praxis.telefon }}</div>
           <div class="ib-sub">Telefon</div>
         </div>
       </a>
-      <a class="iconbox" href="tel:{{ praxis.rezepthotline | tel }}">
+      <a class="iconbox" href="tel:{{ praxis.rezepthotline | tel }}" aria-label="Rezepthotline anrufen: {{ praxis.rezepthotline }}">
         <i class="far fa-file-alt"></i>
         <div>
           <div class="ib-title">{{ praxis.rezepthotline }}</div>
@@ -23,7 +23,7 @@
         </div>
       </a>
       {% if covidUpdate %}
-        <a class="iconbox" href="{{ base_path }}/#covid-impfung">
+        <a class="iconbox" href="{{ base_path }}/#covid-impfung" aria-label="Aktuelle Informationen zur COVID-19-Impfung aufrufen">
           <i class="fab fa-medrt"></i>
           <div>
             <div class="ib-title">Update: COVID-19</div>
@@ -33,7 +33,7 @@
       {% endif %}
     </div>
     {% if hours %}
-      <div class="hoursbar">
+      <div class="hoursbar" role="region" aria-label="Sprechzeiten">
         {% for s in praxis.sprechzeiten %}
           <div class="day">
             <b>{{ s.tag }}</b>

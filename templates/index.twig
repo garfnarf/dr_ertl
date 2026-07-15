@@ -6,11 +6,11 @@
   {% endwith %}
 
   {% for item in aktuelles %}
-    <section class="section" id="{{ item.id }}">
+    <section class="section" id="{{ item.id }}" aria-labelledby="heading-{{ item.id }}">
       <div class="container">
         <div class="news" data-icon="{{ item.data.listenIcon }}">
           <div class="kicker">{{ item.data.kicker }}</div>
-          <h4>{{ item.data.titel }}</h4>
+          <h4 id="heading-{{ item.id }}">{{ item.data.titel }}</h4>
           {{ item.content | safe }}
           {% if item.data.rezeptformular %}
             {% include "components/rezept_form.twig" %}

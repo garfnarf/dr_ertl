@@ -5,7 +5,7 @@
     {% include "components/infobar.twig" %}
   {% endwith %}
 
-  <div class="container leistungen-intro">
+  <div class="container leistungen-intro" style="text-align: center;">
     <h1>Unsere Leistungen</h1>
     <p>Erfahren Sie mehr über die Leistungen, die wir anbieten.</p>
     {% with linkTo=base_path ~ '/leistungen/' %}
@@ -15,18 +15,18 @@
 
   <div class="container">
     {% for item in leistungen %}
-      <section class="service {% if loop.index0 % 2 == 1 %}img-right{% endif %}" id="{{ item.id }}">
+      <section class="service {% if loop.index0 % 2 == 1 %}img-right{% endif %}" id="{{ item.id }}" aria-labelledby="heading-{{ item.id }}">
         <div class="img-col">
           <img 
             src="{{ item.data.bild | rel(base_path) }}" 
             srcset="{{ item.data.bild | rel_size(base_path, '400w') }} 400w, {{ item.data.bild | rel_size(base_path, '800w') }} 800w, {{ item.data.bild | rel_size(base_path, '1200w') }} 1200w"
             sizes="(max-width: 767px) 100vw, 475px"
-            alt="{{ item.data.titel }}" 
+            alt="{{ item.data.bild_alt | default(item.data.titel) }}" 
             loading="lazy" 
           />
         </div>
         <div class="txt-col">
-          <h2>
+          <h2 id="heading-{{ item.id }}">
             <span class="s-icon"><i class="{{ item.data.icon }}"></i></span>
             <span>{{ item.data.titel }}</span>
           </h2>

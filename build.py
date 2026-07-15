@@ -226,41 +226,55 @@ def main():
     fotos = []
     for a in aerzte:
         if a['data'].get('foto'):
-            fotos.append({'src': a['data']['foto'], 'alt': a['data']['name']})
+            fotos.append({'src': a['data']['foto'], 'alt': a['data'].get('foto_alt', a['data']['name'])})
     for t in team:
         if t['data'].get('foto'):
-            fotos.append({'src': t['data']['foto'], 'alt': t['data']['name']})
+            fotos.append({'src': t['data']['foto'], 'alt': t['data'].get('foto_alt', t['data']['name'])})
             
     # Load pages from seiten collection
     seiten = {e['id']: e for e in get_collection('seiten')}
     
     # Load and minify CSS
     print("Loading and minifying CSS...")
-    css_content = ""
     
-    # Load Font Awesome CSS files
+    # 1. Process and save non-essential Font Awesome CSS (Asynchronous)
     fa_files = [
         os.path.join(OUTPUT_DIR, 'fa', 'css', 'fontawesome.min.css'),
         os.path.join(OUTPUT_DIR, 'fa', 'css', 'solid.min.css'),
         os.path.join(OUTPUT_DIR, 'fa', 'css', 'regular.min.css'),
         os.path.join(OUTPUT_DIR, 'fa', 'css', 'brands.min.css')
     ]
+    fa_css_content = ""
     for fa_file in fa_files:
         if os.path.exists(fa_file):
             with open(fa_file, 'r', encoding='utf-8') as f:
-                css_content += f.read() + "\n\n"
+                content = f.read()
+                # Inject font-display: optional; to satisfy Lighthouse font display requirements
+                content = content.replace('@font-face{', '@font-face{font-display:optional;')
+                content = content.replace('@font-face {', '@font-face {font-display:optional;')
+                fa_css_content += content + "\n\n"
         else:
             print(f"Warning: Font Awesome file {fa_file} not found!")
+            
+    minified_fa_css = minify_css(fa_css_content)
+    dest_fa_css = os.path.join(OUTPUT_DIR, 'fa', 'css', 'all-icons.min.css')
+    os.makedirs(os.path.dirname(dest_fa_css), exist_ok=True)
+    with open(dest_fa_css, 'w', encoding='utf-8') as f:
+        f.write(minified_fa_css)
+    print(f"Generated asynchronous icons CSS at {dest_fa_css}")
 
+    # 2. Process essential CSS (Inlined directly in head)
+    essential_css_content = ""
     src_css = os.path.join('src', 'styles', 'global.css')
     src_fonts_css = os.path.join('src', 'styles', 'font-faces.css')
     if os.path.exists(src_fonts_css):
         with open(src_fonts_css, 'r', encoding='utf-8') as f:
-            css_content += f.read() + "\n\n"
+            essential_css_content += f.read() + "\n\n"
     if os.path.exists(src_css):
         with open(src_css, 'r', encoding='utf-8') as f:
-            css_content += f.read()
-    minified_css = minify_css(css_content)
+            essential_css_content += f.read()
+            
+    minified_essential_css = minify_css(essential_css_content)
 
     # 3. Setup global context
     current_year = datetime.datetime.now().year
@@ -276,7 +290,7 @@ def main():
         'leistungen': leistungen,
         'fotos': fotos,
         'maps_query': maps_query,
-        'global_css': minified_css
+        'global_css': minified_essential_css
     }
     
     # 4. Initialize Jinja2 environment
@@ -291,7 +305,8 @@ def main():
             'route': '',
             'template': 'index.twig',
             'context': {
-                'title': 'Aktuelles – Fach- und Hausarztpraxis Dres. Ertl',
+                'title': 'Hausarzt Oberhaching – Hausarztpraxis Dres. Ertl',
+                'description': 'Hausarztpraxis Dres. Ertl in Oberhaching. Allgemeinmedizin, Innere Medizin, Kindervorsorgen & offizielle Gelbfieberimpfstelle. Online-Termin buchen!',
                 'active': 'aktuelles'
             }
         },
@@ -299,7 +314,8 @@ def main():
             'route': 'ueber-uns',
             'template': 'ueber-uns.twig',
             'context': {
-                'title': 'Über Uns – Fach- und Hausarztpraxis Dres. Ertl',
+                'title': 'Über uns & Leistungen – Hausarztpraxis Dres. Ertl',
+                'description': 'Lernen Sie unsere moderne Hausarztpraxis in Oberhaching kennen. Über 28 Jahre Erfahrung in Allgemeinmedizin, Kindervorsorge & Reisemedizin.',
                 'active': 'ueber-uns'
             }
         },
@@ -307,7 +323,8 @@ def main():
             'route': 'praxisteam',
             'template': 'praxisteam.twig',
             'context': {
-                'title': 'Praxisteam – Fach- und Hausarztpraxis Dres. Ertl',
+                'title': 'Unser Praxisteam – Hausarztpraxis Dres. Ertl',
+                'description': 'Das Ärzteteam und die medizinischen Fachangestellten der Praxis Dres. Ertl in Oberhaching stellen sich vor. Wir freuen uns darauf, Sie zu betreuen!',
                 'active': 'praxisteam'
             }
         },
@@ -315,7 +332,8 @@ def main():
             'route': 'leistungen',
             'template': 'leistungen.twig',
             'context': {
-                'title': 'Leistungen – Fach- und Hausarztpraxis Dres. Ertl',
+                'title': 'Leistungen, Reisemedizin & Vorsorge – Dres. Ertl',
+                'description': 'Ihr Allgemeinarzt in Oberhaching: Leistungen wie Innere Medizin, Kardiologie, Diabetologie, Kindervorsorgen, Reisemedizin & Gelbfieberimpfstelle.',
                 'active': 'leistungen'
             }
         },
@@ -323,7 +341,8 @@ def main():
             'route': 'kontakt',
             'template': 'kontakt.twig',
             'context': {
-                'title': 'Anfahrt & Kontakt – Fach- und Hausarztpraxis Dres. Ertl',
+                'title': 'Kontakt, Anfahrt & Sprechzeiten – Dres. Ertl',
+                'description': 'Kontaktieren Sie die Hausarztpraxis Dres. Ertl in Oberhaching. Hier finden Sie Sprechzeiten, Telefonnummern, Anfahrtsskizze und Google Maps-Karte.',
                 'active': 'kontakt'
             }
         },
@@ -331,14 +350,16 @@ def main():
             'route': 'danke',
             'template': 'danke.twig',
             'context': {
-                'title': 'Vielen Dank – Fach- und Hausarztpraxis Dres. Ertl'
+                'title': 'Vielen Dank für Ihre Nachricht – Dres. Ertl',
+                'description': 'Vielen Dank für Ihre Rezeptbestellung bei den Dres. Ertl in Oberhaching. Wir bearbeiten Ihre Anfrage umgehend zur Abholung in unserer Praxis.'
             }
         },
         {
             'route': 'datenschutz',
             'template': 'datenschutz.twig',
             'context': {
-                'title': 'Datenschutz – Fach- und Hausarztpraxis Dres. Ertl',
+                'title': 'Datenschutzerklärung – Hausarztpraxis Dres. Ertl',
+                'description': 'Datenschutzerklärung der Fach- und Hausarztpraxis Dres. Ertl in Oberhaching. Informationen zur DSGVO-konformen Verarbeitung Ihrer Daten auf unserer Website.',
                 'titel': seiten['datenschutz']['data']['titel'] if 'datenschutz' in seiten else 'Datenschutz',
                 'content': seiten['datenschutz']['content'] if 'datenschutz' in seiten else ''
             }
@@ -348,6 +369,7 @@ def main():
             'template': 'impressum.twig',
             'context': {
                 'title': 'Impressum – Fach- und Hausarztpraxis Dres. Ertl',
+                'description': 'Gesetzliches Impressum der Fach- und Hausarztpraxis Dres. Ertl in Oberhaching. Kontaktdaten, Ärztekammer-Zugehörigkeit und rechtliche Angaben.',
                 'titel': seiten['impressum']['data']['titel'] if 'impressum' in seiten else 'Impressum',
                 'content': seiten['impressum']['content'] if 'impressum' in seiten else ''
             }
@@ -382,7 +404,7 @@ def main():
             f.write(rendered_html)
         print(f"Generated {target_file}")
         
-    # 7. Render dynamic doctor pages
+    # 7. Render dynamic doctor bio pages
     print("Rendering doctor bio pages...")
     for arzt in aerzte:
         slug = arzt['id']
@@ -390,11 +412,26 @@ def main():
         base_path = get_base_path(route)
         nav = make_relative_nav(base_path, praxis['terminland'])
         template = env.get_template('arzt-detail.twig')
+        
+        # Build optimized custom descriptions for doctors
+        name = arzt['data']['name']
+        desc_src = arzt['data'].get('untertitel', arzt['data'].get('beschreibung', ''))
+        bez = desc_src.split(',')[0] if desc_src else 'Fachärztin für Allgemeinmedizin'
+        if "Ludwig" in name:
+            desc = f"{name}, Facharzt für Innere Medizin und Kardiologie in Oberhaching. Erfahren Sie mehr über seine kardiologische Kompetenz & Erfahrung."
+        elif "Claudia" in name:
+            desc = f"{name} stellt sich vor: Fachärztin für Allgemeinmedizin und Akademische Lehrpraxis der LMU in Oberhaching. Lesen Sie ihre Vita!"
+        elif "Veronika" in name:
+            desc = f"{name}, Fachärztin für Allgemeinmedizin & Palliativmedizin in Oberhaching. Wir bieten fürsorgliche Begleitung für chronisch Kranke."
+        else:
+            desc = f"Erfahren Sie mehr über {name}, {bez} in Oberhaching. Vita, Ausbildung und Tätigkeitsschwerpunkte im Überblick."
+            
         ctx = {
             **global_context,
             'base_path': base_path,
             'nav': nav,
-            'title': f"{arzt['data']['name']} – Fach- und Hausarztpraxis Dres. Ertl",
+            'title': f"{name} – Fach- und Hausarztpraxis Dres. Ertl",
+            'description': desc,
             'active': 'praxisteam',
             'arzt': arzt
         }
@@ -419,14 +456,14 @@ def main():
         shutil.copytree(src_fonts_dir, dest_fonts_dir)
         print(f"Copied local font files to {dest_fonts_dir}")
 
-    # 9. Copy PHP backend scripts
-    print("Copying PHP scripts...")
+    # 9. Copy PHP backend scripts and configuration files
+    print("Copying PHP scripts and configs...")
     for filename in os.listdir('src'):
-        if filename.endswith('.php'):
-            src_php = os.path.join('src', filename)
-            dest_php = os.path.join(OUTPUT_DIR, filename)
-            shutil.copy(src_php, dest_php)
-            print(f"Copied {src_php} to {dest_php}")
+        if filename.endswith('.php') or filename == '.htaccess':
+            src_file = os.path.join('src', filename)
+            dest_file = os.path.join(OUTPUT_DIR, filename)
+            shutil.copy(src_file, dest_file)
+            print(f"Copied {src_file} to {dest_file}")
 
     print("--- Build completed successfully ---")
 

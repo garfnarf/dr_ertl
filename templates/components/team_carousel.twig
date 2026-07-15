@@ -1,4 +1,4 @@
-<div class="team-carousel" data-carousel>
+<div class="team-carousel" data-carousel role="region" aria-roledescription="carousel" aria-label="Fotos unseres Praxisteams">
   {% for f in fotos %}
     <img 
       src="{{ f.src | rel(base_path) }}" 
@@ -19,6 +19,7 @@
     const cloneCount = Math.min(originalImgs.length, 6);
     for (let i = 0; i < cloneCount; i++) {
       const clone = originalImgs[i].cloneNode(true);
+      clone.setAttribute('aria-hidden', 'true');
       el.appendChild(clone);
     }
     

@@ -6,6 +6,12 @@
     <title>{{ title }}</title>
     <meta name="description" content="{{ description | default('Fach- und Hausarztpraxis Dres. Ertl in Oberhaching – Allgemeinmedizin, Innere Medizin, Kardiologie und mehr.') }}" />
     <link rel="icon" href="{{ base_path }}/favicon.png" type="image/png" />
+    <!-- Preload critical fonts to avoid request chaining -->
+    <link rel="preload" href="{{ base_path }}/fonts/memvYaGs126MiZpBA-UvWbX2vVnXBbObj2OVTS-muw.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="{{ base_path }}/fonts/KFO7CnqEu92Fr1ME7kSn66aGLdTylUAMa3yUBA.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="{{ base_path }}/fa/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="{{ base_path }}/fa/webfonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="{{ base_path }}/fa/webfonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin />
     <style>
       {{ global_css
          | replace("url('fonts/", "url('" ~ base_path ~ "/fonts/")
@@ -13,21 +19,25 @@
          | replace("url(../webfonts/", "url(" ~ base_path ~ "/fa/webfonts/")
          | safe }}
     </style>
+    <!-- Load non-critical Font Awesome icons asynchronously -->
+    <link rel="stylesheet" href="{{ base_path }}/fa/css/all-icons.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="{{ base_path }}/fa/css/all-icons.min.css"></noscript>
   </head>
   <body class="{% if praxis.announcement.sichtbar %}has-announcement{% endif %}">
+    <a class="skip-link" href="#main-content">Zum Inhalt springen</a>
     {% if praxis.announcement.sichtbar %}
       <a class="announcement" href="{{ praxis.announcement.url }}" target="_blank" rel="noopener">
         Termine können Sie nun online buchen
       </a>
     {% endif %}
 
-    <div id="page-header">
+    <header id="page-header">
       <div class="entry-header">
         <a class="logo-img" href="{{ base_path }}/" title="{{ praxis.name }}">
           <img src="{{ base_path }}/uploads/logo.png" alt="{{ praxis.name }}" width="550" />
         </a>
       </div>
-      <nav id="main-nav">
+      <nav id="main-nav" aria-label="Hauptnavigation">
         <ul id="main-menu">
           {% for item in nav %}
             <li class="{% if active == item.key %}active{% endif %}">
@@ -35,8 +45,9 @@
             </li>
           {% endfor %}
         </ul>
-        <button class="mobile-menu-btn" aria-label="Menü öffnen" onclick="document.getElementById('main-nav').classList.toggle('open')">
-          <i class="fas fa-chevron-down"></i>
+        <button class="mobile-menu-btn" aria-label="Menü öffnen" aria-expanded="false" aria-controls="mobile-menu" onclick="const nav = document.getElementById('main-nav'); nav.classList.toggle('open'); this.setAttribute('aria-expanded', nav.classList.contains('open'));">
+          <i class="fas fa-bars icon-closed"></i>
+          <i class="fas fa-chevron-up icon-opened"></i>
         </button>
         <ul id="mobile-menu">
           {% for item in nav %}
@@ -46,7 +57,7 @@
           {% endfor %}
         </ul>
       </nav>
-    </div>
+    </header>
 
     {% if praxis.announcement.sichtbar %}
       <a class="announcement announcement-mobile" href="{{ praxis.announcement.url }}" target="_blank" rel="noopener">
@@ -54,18 +65,20 @@
       </a>
     {% endif %}
 
-    {% block content %}{% endblock %}
+    <main id="main-content">
+      {% block content %}{% endblock %}
+    </main>
 
     <footer id="page-footer">
       <div class="footer-boxes">
-        <a class="iconbox" href="https://www.google.com/maps?q={{ maps_query }}" target="_blank" rel="noopener">
+        <a class="iconbox" href="https://www.google.com/maps?q={{ maps_query }}" target="_blank" rel="noopener" aria-label="Adresse auf Google Maps anzeigen: {{ praxis.adresse.strasse }}, {{ praxis.adresse.ort }}">
           <i class="fas fa-map-marker-alt"></i>
           <div>
             <div class="ib-title">{{ praxis.adresse.strasse }}</div>
             <div class="ib-sub">{{ praxis.adresse.ort }}</div>
           </div>
         </a>
-        <a class="iconbox" href="tel:{{ praxis.telefon | tel }}">
+        <a class="iconbox" href="tel:{{ praxis.telefon | tel }}" aria-label="Praxis anrufen: {{ praxis.telefon }}">
           <i class="fas fa-phone-alt"></i>
           <div>
             <div class="ib-title">Telefon</div>
@@ -85,11 +98,13 @@
       <div class="footer-cols">
         <div>
           <h2>Weitere Informationen</h2>
-          <ul>
-            <li><a href="{{ base_path }}/kontakt/">Anfahrt &amp; Kontakt</a></li>
-            <li><a href="{{ base_path }}/datenschutz/">Datenschutz</a></li>
-            <li><a href="{{ base_path }}/impressum/">Impressum</a></li>
-          </ul>
+          <nav aria-label="Sekundäre Navigation">
+            <ul>
+              <li><a href="{{ base_path }}/kontakt/">Anfahrt &amp; Kontakt</a></li>
+              <li><a href="{{ base_path }}/datenschutz/">Datenschutz</a></li>
+              <li><a href="{{ base_path }}/impressum/">Impressum</a></li>
+            </ul>
+          </nav>
         </div>
         <div class="mecum">
           <h2>Wir bilden aus!</h2>

@@ -12,21 +12,21 @@
         />
       </div>
       <div>
-        <a class="kbox kbox-row" href="tel:{{ praxis.telefon | tel }}">
+        <a class="kbox kbox-row" href="tel:{{ praxis.telefon | tel }}" aria-label="Praxis anrufen: {{ praxis.telefon }}">
           <i class="fas fa-phone-alt"></i>
           <div>
             <h3>Telefon</h3>
             <p>{{ praxis.telefon }}</p>
           </div>
         </a>
-        <a class="kbox kbox-row" href="tel:{{ praxis.rezepthotline | tel }}">
+        <a class="kbox kbox-row" href="tel:{{ praxis.rezepthotline | tel }}" aria-label="Rezepthotline anrufen: {{ praxis.rezepthotline }}">
           <i class="far fa-file-alt"></i>
           <div>
             <h3>Hotline für Rezepte</h3>
             <p>{{ praxis.rezepthotline }}</p>
           </div>
         </a>
-        <a class="kbox kbox-row" href="tel:{{ praxis.fax | tel }}">
+        <a class="kbox kbox-row" href="tel:{{ praxis.fax | tel }}" aria-label="Fax senden an: {{ praxis.fax }}">
           <i class="fas fa-fax"></i>
           <div>
             <h3>Fax</h3>
@@ -36,8 +36,8 @@
         <p class="khinweis">Bitte <b>keine Anfragen</b> per eMail, dieselben werden aus Datenschutzgründen nicht bearbeitet.</p>
       </div>
       <div>
-        <div class="kbox">
-          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+        <div class="kbox" role="region" aria-label="Sprechzeiten">
+          <div class="sprechzeiten-title" style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
             <i class="far fa-clock" style="margin-bottom: 0; display: inline-block; font-size: 34px; color: var(--sage);"></i>
             <h3 style="margin-bottom: 0;">Sprechzeiten</h3>
           </div>
@@ -51,30 +51,32 @@
       </div>
     </div>
 
-    <a class="kbox kbox-row" href="https://www.google.com/maps?q={{ maps_query }}" target="_blank" rel="noopener" style="margin-top: 10px;">
-      <i class="fas fa-map-marker-alt"></i>
-      <div>
-        <h3>{{ praxis.adresse.strasse }}</h3>
-        <p>{{ praxis.adresse.ort }}</p>
-      </div>
-    </a>
+    <div style="text-align: center; margin-top: 10px; margin-bottom: 26px;">
+      <a class="kbox kbox-row" href="https://www.google.com/maps?q={{ maps_query }}" target="_blank" rel="noopener" aria-label="Adresse auf Google Maps anzeigen: {{ praxis.adresse.strasse }}, {{ praxis.adresse.ort }}" style="display: inline-flex !important; -webkit-box-orient: horizontal !important; -webkit-box-direction: normal !important; -webkit-flex-direction: row !important; -moz-box-orient: horizontal !important; -moz-box-direction: normal !important; -ms-flex-direction: row !important; flex-direction: row !important; text-align: left; margin-bottom: 0; align-items: center;">
+        <i class="fas fa-map-marker-alt" style="margin-bottom: 0 !important;"></i>
+        <div style="text-align: left;">
+          <h3>{{ praxis.adresse.strasse }}</h3>
+          <p>{{ praxis.adresse.ort }}</p>
+        </div>
+      </a>
+    </div>
 
     <div class="map-wrap">
       <div class="map-mask" id="map-mask">
         <button class="btn" id="map-load">Google Maps laden *</button>
       </div>
       <p class="map-caption">
-        * Beim Laden der Karte akzeptieren Sie die Datenschutzbedingungen von Google.
+        * Beim Laden der Karte werden automatisch Cookies von Google erzeugt und Sie willigen in deren Erstellung sowie in die Datenschutzbedingungen von Google ein.
         <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Mehr erfahren</a>
       </p>
     </div>
 
-    <div class="kbox" style="margin: 35px 0 60px;">
-      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+    <div class="kbox" style="margin: 35px 0 60px; text-align: center;">
+      <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 8px;">
         <i class="fas fa-info-circle" style="margin-bottom: 0; display: inline-block;"></i>
         <h3 style="margin-bottom: 0;">Weitere Informationen</h3>
       </div>
-      <p>
+      <p style="text-align: center;">
         Sollten Sie außerhalb unserer Sprechzeiten einen ärztlichen Dienst benötigen, wenden Sie sich bitte
         an den ärztlichen Bereitschaftsdienst unter der Rufnummer <a href="tel:116117" style="color: inherit; font-weight: 600;">116117</a>.
         <b><u>Im Notfall wählen Sie bitte immer die <a href="tel:112" style="color: inherit; text-decoration: underline;">112</a></u>!</b>

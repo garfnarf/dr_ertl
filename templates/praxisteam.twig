@@ -4,7 +4,7 @@
   {% include "components/team_carousel.twig" %}
 
   <div class="container" id="Arzteteam">
-    <h1 class="page-title" style="margin-top: 55px;">Unser Ärzteteam</h1>
+    <h1 class="page-title" style="margin-top: 55px; text-align: center;">Unser Ärzteteam</h1>
     <div class="aerzte-grid">
       {% for a in aerzte %}
         <a class="person" href="{{ base_path }}/praxisteam/{{ a.id }}/">
@@ -13,7 +13,7 @@
               src="{{ a.data.foto | rel(base_path) }}" 
               srcset="{{ a.data.foto | rel_size(base_path, '190w') }} 190w, {{ a.data.foto | rel_size(base_path, '225w') }} 225w, {{ a.data.foto | rel_size(base_path, '380w') }} 380w, {{ a.data.foto | rel_size(base_path, '450w') }} 450w"
               sizes="225px"
-              alt="{{ a.data.name }}" 
+              alt="{{ a.data.foto_alt | default(a.data.name) }}" 
               loading="lazy" 
             />
           </div>
@@ -26,7 +26,7 @@
       {% endfor %}
     </div>
 
-    <h2 class="page-title big-heading" style="font-size: 30px; color: #333;">Unser Praxisteam</h2>
+    <h2 class="page-title big-heading" style="font-size: 30px; color: #333; text-align: center;">Unser Praxisteam</h2>
     <div class="team-grid">
       {% for t in team %}
         <div class="person">
@@ -35,7 +35,7 @@
               src="{{ t.data.foto | rel(base_path) }}" 
               srcset="{{ t.data.foto | rel_size(base_path, '190w') }} 190w, {{ t.data.foto | rel_size(base_path, '225w') }} 225w, {{ t.data.foto | rel_size(base_path, '380w') }} 380w, {{ t.data.foto | rel_size(base_path, '450w') }} 450w"
               sizes="225px"
-              alt="{{ t.data.name }}" 
+              alt="{{ t.data.foto_alt | default(t.data.name) }}" 
               loading="lazy" 
             />
           </div>

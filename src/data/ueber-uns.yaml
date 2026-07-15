@@ -1,16 +1,28 @@
 galerie:
-  - /uploads/galerie-1.jpg
-  - /uploads/galerie-2.jpg
-  - /uploads/galerie-3.jpg
-  - /uploads/galerie-4.jpg
-  - /uploads/galerie-5.jpg
-  - /uploads/galerie-6.jpg
-  - /uploads/galerie-7.jpg
-  - /uploads/galerie-8.jpg
-  - /uploads/galerie-9.jpg
-  - /uploads/galerie-10.jpg
-  - /uploads/galerie-11.jpg
-  - /uploads/galerie-12.jpg
+  - src: /uploads/galerie-1.jpg
+    alt: Helles Sprechzimmer mit einem Schreibtisch, Laptop und Stühlen
+  - src: /uploads/galerie-2.jpg
+    alt: Moderner Empfangsbereich der Praxis mit hölzernem Tresen und Wartebereich
+  - src: /uploads/galerie-3.jpg
+    alt: Freundlicher Wartebereich mit bequemen Holzstühlen und warmen Farben
+  - src: /uploads/galerie-4.jpg
+    alt: Spielecke für Kinder mit einem Elefantenhocker und einem Motorikboard an der Wand
+  - src: /uploads/galerie-5.jpg
+    alt: Einladendes Sprechzimmer mit Schreibtisch und Patientenstühlen
+  - src: /uploads/galerie-6.jpg
+    alt: Blick durch den hellen Flur der Praxis in ein Sprechzimmer
+  - src: /uploads/galerie-7.jpg
+    alt: Detailansicht eines Regals mit Fachbüchern und einer Retro-Uhr vor blauer Wand
+  - src: /uploads/galerie-8.jpg
+    alt: Flurbereich mit dekorativen Holzelementen an der Wand und Blick in die Sprechzimmer
+  - src: /uploads/galerie-9.jpg
+    alt: Helles Untersuchungszimmer mit einer Untersuchungsliege und medizinischem Zubehör
+  - src: /uploads/galerie-10.jpg
+    alt: Buntes Motorik-Spielbrett für Kinder an einer weißen Wand
+  - src: /uploads/galerie-11.jpg
+    alt: Sprechzimmer mit Arbeitsplatz, Patientenstühlen und einer Spielecke im Hintergrund
+  - src: /uploads/galerie-12.jpg
+    alt: Untersuchungsliege mit einem an der Wand hängenden Stethoskop in ruhiger Atmosphäre
 zahlen:
   - wert: 28
     text: Jahren Praxis in Oberhaching

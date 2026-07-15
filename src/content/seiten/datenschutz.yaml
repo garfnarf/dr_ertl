@@ -151,27 +151,33 @@ text: '## 1. Datenschutz auf einen Blick
   von Daten zur Erfüllung eines Vertrags oder vorvertraglicher Maßnahmen gestattet.
 
 
+  ### Rezeptbestellung über das Online-Formular
+
+
+  Auf unserer Website bieten wir Ihnen die Möglichkeit, Rezepte online über ein Formular vorzubestellen. Wenn Sie diesen Dienst in Anspruch nehmen, werden die in der Eingabemaske eingegebenen Daten an uns übermittelt und auf unseren Servern gespeichert. Diese Daten sind:
+  - Vorname
+  - Nachname
+  - Geburtsdatum
+  - E-Mail-Adresse (optional)
+  - Gewünschtes Medikament inkl. Dosierung
+
+  Für die Verarbeitung der Daten wird im Rahmen des Absendevorgangs Ihre Einwilligung eingeholt und auf diese Datenschutzerklärung verwiesen. Die Verarbeitung der in das Rezeptformular eingegebenen Daten erfolgt somit ausschließlich auf Grundlage Ihrer Einwilligung (Art. 6 Abs. 1 lit. a DSGVO).
+
+  Die von Ihnen im Rezeptformular eingegebenen Daten verbleiben bei uns, bis Sie uns zur Löschung auffordern, Ihre Einwilligung zur Speicherung widerrufen oder der Zweck für die Datenspeicherung entfällt (z.B. nach abgeschlossener Bearbeitung Ihres Rezeptwunsches). Unbeschadet dessen werden die erhobenen Formulardaten nach spätestens 3 Monaten gelöscht. Zwingende gesetzliche Bestimmungen – insbesondere Aufbewahrungsfristen – bleiben unberührt.
+
+  Sie können Ihre Einwilligung zur Datenverarbeitung jederzeit mit Wirkung für die Zukunft per E-Mail an info@praxis-dr-ertl.de widerrufen.
+
+
   ## 4. Plugins und Tools
 
 
-  ### Google Maps
+  ### Google Maps mit 2-Klick-Lösung
 
 
-  Diese Seite nutzt über eine API den Kartendienst Google Maps. Anbieter ist die Google
-  Inc., 1600 Amphitheatre Parkway, Mountain View, CA 94043, USA.
+  Diese Seite nutzt über eine API den Kartendienst Google Maps. Anbieter ist die Google Inc., 1600 Amphitheatre Parkway, Mountain View, CA 94043, USA.
 
+  Um den Datenschutz auf unserer Website zu gewährleisten, ist Google Maps über eine sogenannte „2-Klick-Lösung“ integriert. Dies sorgt dafür, dass beim reinen Aufrufen der Kontaktseite noch keine Verbindung zu den Servern von Google hergestellt und somit auch keine IP-Adresse an Google übertragen wird. Erst wenn Sie die interaktive Karte durch Klicken auf die Schaltfläche „Google Maps laden“ aktivieren, erteilen Sie Ihre Einwilligung zur Datenübertragung an Google.
 
-  Zur Nutzung der Funktionen von Google Maps ist es notwendig, Ihre IP Adresse zu
-  speichern. Diese Informationen werden in der Regel an einen Server von Google in
-  den USA übertragen und dort gespeichert. Der Anbieter dieser Seite hat keinen Einfluss
-  auf diese Datenübertragung.
+  Nach der Aktivierung wird die Verbindung zu Google aufgebaut. Zur Nutzung der Funktionen von Google Maps ist es dann notwendig, Ihre IP-Adresse zu erfassen und in der Regel an einen Server von Google in den USA zu übertragen. Der Anbieter dieser Seite hat keinen Einfluss auf diese Datenübertragung. Die Verarbeitung erfolgt auf Grundlage Ihrer Einwilligung (Art. 6 Abs. 1 lit. a DSGVO).
 
-
-  Die Nutzung von Google Maps erfolgt im Interesse einer ansprechenden Darstellung
-  unserer Online-Angebote und an einer leichten Auffindbarkeit der von uns auf der
-  Website angegebenen Orte. Dies stellt ein berechtigtes Interesse im Sinne von Art.
-  6 Abs. 1 lit. f DSGVO dar.
-
-
-  Mehr Informationen zum Umgang mit Nutzerdaten finden Sie in der [Datenschutzerklärung
-  von Google](https://policies.google.com/privacy).'
+  Mehr Informationen zum Umgang mit Nutzerdaten finden Sie in der [Datenschutzerklärung von Google](https://policies.google.com/privacy).'
