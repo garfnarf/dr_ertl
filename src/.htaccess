@@ -1,3 +1,6 @@
+# Custom 404 Error Document
+ErrorDocument 404 /404.html
+
 # Enable expirations
 <IfModule mod_expires.c>
   ExpiresActive On

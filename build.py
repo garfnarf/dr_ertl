@@ -66,7 +66,15 @@ def get_base_path(route):
     route_stripped = route.strip('/')
     if not route_stripped:
         return '.'
-    depth = len(route_stripped.split('/'))
+    if '/' not in route_stripped and route_stripped.endswith('.html'):
+        return '.'
+    parts = [p for p in route_stripped.split('/') if p]
+    if parts and parts[-1].endswith('.html'):
+        depth = len(parts) - 1
+    else:
+        depth = len(parts)
+    if depth == 0:
+        return '.'
     return '/'.join(['..'] * depth)
 
 def make_relative_nav(base_path, terminland_url):
@@ -373,6 +381,15 @@ def main():
                 'titel': seiten['impressum']['data']['titel'] if 'impressum' in seiten else 'Impressum',
                 'content': seiten['impressum']['content'] if 'impressum' in seiten else ''
             }
+        },
+        {
+            'route': '404.html',
+            'template': '404.twig',
+            'context': {
+                'title': 'Seite nicht gefunden – Fach- und Hausarztpraxis Dres. Ertl',
+                'description': 'Die von Ihnen gesuchte Seite konnte leider nicht gefunden werden. Kehren Sie zurück zur Startseite.',
+                'active': ''
+            }
         }
     ]
     
@@ -392,14 +409,17 @@ def main():
         }
         rendered_html = template.render(ctx)
         
-        # Write to public/route/index.html
+        # Write to public/route/index.html or public/filename.html
         if page['route'] == '':
-            target_dir = OUTPUT_DIR
+            target_file = os.path.join(OUTPUT_DIR, 'index.html')
+        elif page['route'].endswith('.html'):
+            target_file = os.path.join(OUTPUT_DIR, page['route'])
+            os.makedirs(os.path.dirname(target_file), exist_ok=True)
         else:
             target_dir = os.path.join(OUTPUT_DIR, page['route'])
+            os.makedirs(target_dir, exist_ok=True)
+            target_file = os.path.join(target_dir, 'index.html')
             
-        os.makedirs(target_dir, exist_ok=True)
-        target_file = os.path.join(target_dir, 'index.html')
         with open(target_file, 'w', encoding='utf-8') as f:
             f.write(rendered_html)
         print(f"Generated {target_file}")
