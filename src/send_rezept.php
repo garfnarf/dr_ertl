@@ -41,6 +41,13 @@ if (empty($vorname) || empty($nachname) || empty($geburtsdatum) || empty($medika
 
 $subject = "Neue Rezeptbestellung via Website von " . $vorname . " " . $nachname;
 
+// Escape user inputs to prevent HTML injection/XSS in the generated email content
+$safe_vorname = htmlspecialchars($vorname, ENT_QUOTES, 'UTF-8');
+$safe_nachname = htmlspecialchars($nachname, ENT_QUOTES, 'UTF-8');
+$safe_geburtsdatum = htmlspecialchars($geburtsdatum, ENT_QUOTES, 'UTF-8');
+$safe_email = $email ? htmlspecialchars($email, ENT_QUOTES, 'UTF-8') : '';
+$safe_medikament = htmlspecialchars($medikament, ENT_QUOTES, 'UTF-8');
+
 // Email body in HTML format
 $message = "
 <html>
@@ -54,23 +61,23 @@ $message = "
   <table style='border: 1px solid #ddd; border-collapse: collapse; width: 100%; max-width: 600px;'>
     <tr style='background: #f9f9f9;'>
       <td style='padding: 10px; border: 1px solid #ddd; font-weight: bold; width: 180px;'>Vorname:</td>
-      <td style='padding: 10px; border: 1px solid #ddd;'>$vorname</td>
+      <td style='padding: 10px; border: 1px solid #ddd;'>$safe_vorname</td>
     </tr>
     <tr>
       <td style='padding: 10px; border: 1px solid #ddd; font-weight: bold;'>Nachname:</td>
-      <td style='padding: 10px; border: 1px solid #ddd;'>$nachname</td>
+      <td style='padding: 10px; border: 1px solid #ddd;'>$safe_nachname</td>
     </tr>
     <tr style='background: #f9f9f9;'>
       <td style='padding: 10px; border: 1px solid #ddd; font-weight: bold;'>Geburtsdatum:</td>
-      <td style='padding: 10px; border: 1px solid #ddd;'>$geburtsdatum</td>
+      <td style='padding: 10px; border: 1px solid #ddd;'>$safe_geburtsdatum</td>
     </tr>
     <tr>
       <td style='padding: 10px; border: 1px solid #ddd; font-weight: bold;'>E-Mail:</td>
-      <td style='padding: 10px; border: 1px solid #ddd;'>" . ($email ? $email : 'Keine E-Mail-Adresse angegeben') . "</td>
+      <td style='padding: 10px; border: 1px solid #ddd;'>" . ($safe_email ? $safe_email : 'Keine E-Mail-Adresse angegeben') . "</td>
     </tr>
     <tr style='background: #f9f9f9;'>
       <td style='padding: 10px; border: 1px solid #ddd; font-weight: bold; vertical-align: top;'>Gewünschtes Medikament:</td>
-      <td style='padding: 10px; border: 1px solid #ddd; white-space: pre-wrap;'>$medikament</td>
+      <td style='padding: 10px; border: 1px solid #ddd; white-space: pre-wrap;'>$safe_medikament</td>
     </tr>
   </table>
   
