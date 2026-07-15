@@ -589,7 +589,7 @@ def main():
         print(f"Copied local font files to {dest_fonts_dir}")
 
     # Copy local SVG icons for CSS references
-    dest_icons_dir = os.path.join(OUTPUT_DIR, 'icons')
+    dest_icons_dir = os.path.join(OUTPUT_DIR, 'svg-icons')
     if os.path.exists(ICONS_DIR):
         if os.path.exists(dest_icons_dir):
             shutil.rmtree(dest_icons_dir)

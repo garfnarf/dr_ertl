@@ -12,7 +12,7 @@ public/index.html
 # Generated assets
 public/fonts/
 public/global.css
-public/icons/
+public/svg-icons/
 
 # Generated uploads (responsive images)
 # All original uploads are in src/uploads/
