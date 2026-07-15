@@ -215,7 +215,7 @@ def process_images():
         elif name == 'map-placeholder':
             widths = [600, 1200]
         elif name == 'logo':
-            widths = [550, 1100]
+            widths = [525, 1050]
         elif name == 'mecum':
             widths = []
         elif name == 'praxis-7':
