@@ -12,6 +12,10 @@
     <link rel="preload" href="{{ base_path }}/fa/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="{{ base_path }}/fa/webfonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="{{ base_path }}/fa/webfonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin />
+    <!-- Preload critical background images for header and infobar -->
+    <link rel="preload" href="{{ base_path }}/uploads/header-bg-768w.jpg" as="image" media="(max-width: 767px)" fetchpriority="high" />
+    <link rel="preload" href="{{ base_path }}/uploads/header-bg-1200w.jpg" as="image" media="(min-width: 768px) and (max-width: 1200px)" fetchpriority="high" />
+    <link rel="preload" href="{{ base_path }}/uploads/header-bg-1920w.jpg" as="image" media="(min-width: 1201px)" fetchpriority="high" />
     <style>
       {{ global_css
          | replace("url('fonts/", "url('" ~ base_path ~ "/fonts/")
