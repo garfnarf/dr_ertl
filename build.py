@@ -510,7 +510,7 @@ def main():
     # 9. Copy PHP backend scripts and configuration files
     print("Copying PHP scripts and configs...")
     for filename in os.listdir('src'):
-        if filename.endswith('.php') or filename == '.htaccess':
+        if filename.endswith('.php') or filename == '.htaccess' or filename == 'robots.txt':
             src_file = os.path.join('src', filename)
             dest_file = os.path.join(OUTPUT_DIR, filename)
             shutil.copy(src_file, dest_file)
