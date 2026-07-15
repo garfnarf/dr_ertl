@@ -27,7 +27,7 @@
         </div>
         <div class="txt-col">
           <h2 id="heading-{{ item.id }}">
-            <span class="s-icon"><i class="{{ item.data.icon }}"></i></span>
+            <span class="s-icon">{{ item.data.icon | svg_icon }}</span>
             <span>{{ item.data.titel }}</span>
           </h2>
           {% if item.data.untertitel %}

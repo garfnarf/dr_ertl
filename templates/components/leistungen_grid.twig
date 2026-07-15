@@ -2,12 +2,12 @@
   {% for l in leistungen[:limit|default(99)] %}
     {% if linkTo %}
       <a class="cell" href="{{ linkTo }}#{{ l.id }}">
-        <div class="icon-frame"><i class="{{ l.data.icon }}"></i></div>
+        <div class="icon-frame">{{ l.data.icon | svg_icon }}</div>
         <div class="label">{{ l.data.titel }}</div>
       </a>
     {% else %}
       <div class="cell">
-        <div class="icon-frame"><i class="{{ l.data.icon }}"></i></div>
+        <div class="icon-frame">{{ l.data.icon | svg_icon }}</div>
         <div class="label">{{ l.data.titel }}</div>
       </div>
     {% endif %}

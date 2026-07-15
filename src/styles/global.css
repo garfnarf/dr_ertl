@@ -17,6 +17,15 @@
   --font-alt: 'Roboto', sans-serif;
 }
 
+/* Inline SVGs styling */
+.svg-inline {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  fill: currentColor;
+  vertical-align: middle;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -442,11 +451,13 @@ a.iconbox:hover {
   background-color: rgba(143, 174, 112, 0.15);
 }
 
-a.iconbox:hover i {
+a.iconbox:hover i,
+a.iconbox:hover svg {
   color: var(--sage-dark);
 }
 
-.iconbox i {
+.iconbox i,
+.iconbox svg {
   font-size: 34px;
   color: var(--sage);
   -webkit-box-flex: 0;
@@ -657,7 +668,8 @@ h1.page-title,
   color: var(--text);
 }
 
-.icon-list li i {
+.icon-list li i,
+.icon-list li svg {
   color: var(--sage);
   font-size: 21px;
   -webkit-box-flex: 0;
@@ -670,7 +682,8 @@ h1.page-title,
   top: 2px;
 }
 
-.icon-list.small-icons li i {
+.icon-list.small-icons li i,
+.icon-list.small-icons li svg {
   font-size: 16px;
   width: 22px;
 }
@@ -833,7 +846,8 @@ h1.page-title,
   transition: transform 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
 }
 
-.leistungen-grid .cell i {
+.leistungen-grid .cell i,
+.leistungen-grid .cell svg {
   font-size: 30px;
   color: var(--green);
   -webkit-transition: transform 0.3s ease, color 0.3s ease;
@@ -865,7 +879,8 @@ h1.page-title,
   border-color: var(--sage);
 }
 
-.leistungen-grid a.cell:hover i {
+.leistungen-grid a.cell:hover i,
+.leistungen-grid a.cell:hover svg {
   -webkit-transform: scale(1.08);
   -moz-transform: scale(1.08);
   -ms-transform: scale(1.08);
@@ -981,14 +996,19 @@ h1.page-title,
 }
 
 .service ul li::before {
-  content: '\f00c';
-  font-family: 'Font Awesome 5 Free';
-  font-weight: 900;
-  color: var(--sage);
+  content: "";
   position: absolute;
   left: 0;
-  top: 4px;
-  font-size: 14px;
+  top: 6px;
+  width: 14px;
+  height: 14px;
+  background-color: var(--sage);
+  -webkit-mask-image: url('icons/check.svg');
+  mask-image: url('icons/check.svg');
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
 }
 
 @media (max-width: 767px) {
@@ -1626,7 +1646,8 @@ a.person:hover .btn {
   flex: none;
 }
 
-.infobox2 .icon-frame i {
+.infobox2 .icon-frame i,
+.infobox2 .icon-frame svg {
   font-size: 26px;
   color: var(--sage);
 }
@@ -1720,7 +1741,8 @@ a.kbox:hover {
   align-items: flex-start;
 }
 
-.kbox-row i {
+.kbox-row i,
+.kbox-row svg {
   margin-bottom: 0 !important;
   display: inline-block;
   font-size: 34px;
@@ -1737,11 +1759,13 @@ a.kbox:hover h3 {
   color: #000;
 }
 
-a.kbox:hover i {
+a.kbox:hover i,
+a.kbox:hover svg {
   color: var(--sage-dark);
 }
 
-.kbox i {
+.kbox i,
+.kbox svg {
   font-size: 26px;
   color: var(--sage);
   margin-bottom: 8px;
@@ -1827,7 +1851,8 @@ a.kbox:hover i {
     text-align: center !important;
   }
 
-  .kbox-row i {
+  .kbox-row i,
+  .kbox-row svg {
     margin-bottom: 6px !important;
   }
 }
@@ -1951,7 +1976,8 @@ a.kbox:hover i {
   padding: 40px 10px 20px;
 }
 
-.footer-boxes .iconbox i {
+.footer-boxes .iconbox i,
+.footer-boxes .iconbox svg {
   color: var(--sage);
   font-size: 26px;
 }
@@ -2079,21 +2105,27 @@ a.kbox:hover i {
 }
 
 .news ul li::before {
-  font-family: 'Font Awesome 5 Free';
-  font-weight: 900;
-  color: var(--sage);
+  content: "";
   position: absolute;
   left: 0;
-  top: 5px;
-  font-size: 17px;
+  top: 6px;
+  width: 14px;
+  height: 14px;
+  background-color: var(--sage);
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
 }
 
 .news[data-icon='chevron'] ul li::before {
-  content: '\f054';
+  -webkit-mask-image: url('icons/chevron-right.svg');
+  mask-image: url('icons/chevron-right.svg');
 }
 
 .news[data-icon='warnung'] ul li::before {
-  content: '\f071';
+  -webkit-mask-image: url('icons/exclamation-triangle.svg');
+  mask-image: url('icons/exclamation-triangle.svg');
 }
 
 /* ---------- Mobile Centering Optimization ---------- */
@@ -2184,7 +2216,8 @@ a.kbox:hover i {
     text-align: center !important;
     padding-left: 0 !important;
   }
-  .icon-list li i {
+  .icon-list li i,
+  .icon-list li svg {
     position: static !important;
     width: auto !important;
     margin-bottom: 6px !important;
@@ -2206,7 +2239,8 @@ a.kbox:hover i {
     align-items: center !important;
     text-align: center !important;
   }
-  .kbox-row i {
+  .kbox-row i,
+  .kbox-row svg {
     margin-bottom: 6px !important;
   }
 

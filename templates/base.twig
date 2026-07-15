@@ -9,9 +9,6 @@
     <!-- Preload critical fonts to avoid request chaining -->
     <link rel="preload" href="{{ base_path }}/fonts/memvYaGs126MiZpBA-UvWbX2vVnXBbObj2OVTS-muw.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="{{ base_path }}/fonts/KFO7CnqEu92Fr1ME7kSn66aGLdTylUAMa3yUBA.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="{{ base_path }}/fa/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="{{ base_path }}/fa/webfonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="{{ base_path }}/fa/webfonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin />
     <!-- Preload critical background images for header and infobar -->
     <link rel="preload" href="{{ base_path }}/uploads/header-bg-768w.jpg" as="image" media="(max-width: 767px)" fetchpriority="high" />
     <link rel="preload" href="{{ base_path }}/uploads/header-bg-1200w.jpg" as="image" media="(min-width: 768px) and (max-width: 1200px)" fetchpriority="high" />
@@ -20,12 +17,9 @@
       {{ global_css
          | replace("url('fonts/", "url('" ~ base_path ~ "/fonts/")
          | replace("url('uploads/", "url('" ~ base_path ~ "/uploads/")
-         | replace("url(../webfonts/", "url(" ~ base_path ~ "/fa/webfonts/")
+         | replace("url('icons/", "url('" ~ base_path ~ "/icons/")
          | safe }}
     </style>
-    <!-- Load non-critical Font Awesome icons asynchronously -->
-    <link rel="stylesheet" href="{{ base_path }}/fa/css/all-icons.min.css" media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="{{ base_path }}/fa/css/all-icons.min.css"></noscript>
   </head>
   <body class="{% if praxis.announcement.sichtbar %}has-announcement{% endif %}">
     <a class="skip-link" href="#main-content">Zum Inhalt springen</a>
@@ -50,8 +44,8 @@
           {% endfor %}
         </ul>
         <button class="mobile-menu-btn" aria-label="Menü öffnen" aria-expanded="false" aria-controls="mobile-menu" onclick="const nav = document.getElementById('main-nav'); nav.classList.toggle('open'); this.setAttribute('aria-expanded', nav.classList.contains('open'));">
-          <i class="fas fa-bars icon-closed"></i>
-          <i class="fas fa-chevron-up icon-opened"></i>
+          {{ 'bars' | svg_icon('icon-closed') }}
+          {{ 'chevron-up' | svg_icon('icon-opened') }}
         </button>
         <ul id="mobile-menu">
           {% for item in nav %}
@@ -76,21 +70,21 @@
     <footer id="page-footer">
       <div class="footer-boxes">
         <a class="iconbox" href="https://www.google.com/maps?q={{ maps_query }}" target="_blank" rel="noopener" aria-label="Adresse auf Google Maps anzeigen: {{ praxis.adresse.strasse }}, {{ praxis.adresse.ort }}">
-          <i class="fas fa-map-marker-alt"></i>
+          {{ 'map-marker-alt' | svg_icon }}
           <div>
             <div class="ib-title">{{ praxis.adresse.strasse }}</div>
             <div class="ib-sub">{{ praxis.adresse.ort }}</div>
           </div>
         </a>
         <a class="iconbox" href="tel:{{ praxis.telefon | tel }}" aria-label="Praxis anrufen: {{ praxis.telefon }}">
-          <i class="fas fa-phone-alt"></i>
+          {{ 'phone-alt' | svg_icon }}
           <div>
             <div class="ib-title">Telefon</div>
             <div class="ib-sub">{{ praxis.telefon }}</div>
           </div>
         </a>
         <div class="iconbox">
-          <i class="far fa-clock"></i>
+          {{ 'clock' | svg_icon }}
           <div>
             <div class="ib-title">Sprechstunde</div>
             <div class="ib-sub">{{ praxis.sprechstundeKurz }}</div>

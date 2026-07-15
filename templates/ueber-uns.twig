@@ -77,7 +77,7 @@
     <div class="infoboxen">
       {% for b in ueber_uns.weitereInfos.boxen %}
         <div class="infobox2">
-          <div class="icon-frame"><i class="{{ b.icon }}"></i></div>
+          <div class="icon-frame">{{ b.icon | svg_icon }}</div>
           <div>
             <h3>{{ b.titel }}</h3>
             <p>{{ b.text }}</p>

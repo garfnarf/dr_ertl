@@ -13,6 +13,110 @@ CONTENT_DIR = os.path.join('src', 'content')
 TEMPLATES_DIR = 'templates'
 OUTPUT_DIR = 'public'
 
+# Try to import Markup for safe HTML injection in templates
+try:
+    from markupsafe import Markup
+except ImportError:
+    try:
+        from jinja2 import Markup
+    except ImportError:
+        Markup = lambda x: x
+
+ICONS_DIR = os.path.join('src', 'icons')
+SVG_CACHE = {}
+
+def load_svg_icons():
+    cache = {}
+    if os.path.exists(ICONS_DIR):
+        for filename in os.listdir(ICONS_DIR):
+            if filename.endswith('.svg'):
+                name = os.path.splitext(filename)[0]
+                filepath = os.path.join(ICONS_DIR, filename)
+                try:
+                    with open(filepath, 'r', encoding='utf-8') as f:
+                        cache[name] = f.read()
+                except Exception as e:
+                    print(f"Error loading SVG {filepath}: {e}")
+    return cache
+
+SVG_CACHE.update(load_svg_icons())
+
+def normalize_icon_name(name):
+    if not name:
+        return ""
+    if name.endswith('.svg'):
+        name = name[:-4]
+    # Remove Font Awesome prefixes if present
+    name = re.sub(r'^(fas|far|fab|fa)\s+fa-', '', name)
+    name = re.sub(r'^fa-', '', name)
+    return name.strip().lower()
+
+def svg_icon_filter(icon_name, class_name="", style=""):
+    norm_name = normalize_icon_name(icon_name)
+    svg_content = SVG_CACHE.get(norm_name)
+    if not svg_content:
+        # On-demand fallback
+        fallback_path = os.path.join(ICONS_DIR, f"{norm_name}.svg")
+        if os.path.exists(fallback_path):
+            try:
+                with open(fallback_path, 'r', encoding='utf-8') as f:
+                    svg_content = f.read()
+                    SVG_CACHE[norm_name] = svg_content
+            except Exception:
+                pass
+                
+    if not svg_content:
+        print(f"Warning: Icon '{icon_name}' (normalized: '{norm_name}') not found in {ICONS_DIR}")
+        return Markup(f"<!-- Icon '{icon_name}' not found -->")
+        
+    # Inject attributes into the root <svg> tag
+    match = re.search(r'<svg([^>]*)>', svg_content, re.IGNORECASE)
+    if not match:
+        return Markup(svg_content)
+        
+    attrs_str = match.group(1)
+    attrs = {}
+    attr_pattern = re.compile(r'([\w\-]+)\s*=\s*(?:"([^"]*)"|\'([^\']*)\'|([^\s>]+))')
+    for attr_match in attr_pattern.finditer(attrs_str):
+        k = attr_match.group(1).lower()
+        v = attr_match.group(2) or attr_match.group(3) or attr_match.group(4)
+        attrs[k] = v
+        
+    # Merge class
+    merged_class = "svg-inline"
+    if class_name:
+        merged_class += f" {class_name}"
+    if 'class' in attrs:
+        existing_classes = attrs['class'].split()
+        for c in existing_classes:
+            if c not in merged_class.split():
+                merged_class += f" {c}"
+    attrs['class'] = merged_class
+    
+    # Merge style
+    if style:
+        if 'style' in attrs:
+            attrs['style'] = attrs['style'].rstrip(';') + '; ' + style
+        else:
+            attrs['style'] = style
+            
+    # Standard properties for inline SVGs
+    if 'aria-hidden' not in attrs:
+        attrs['aria-hidden'] = 'true'
+    if 'focusable' not in attrs:
+        attrs['focusable'] = 'false'
+    if 'role' not in attrs:
+        attrs['role'] = 'img'
+        
+    new_attrs_str = ""
+    for k, v in attrs.items():
+        new_attrs_str += f' {k}="{v}"'
+        
+    new_svg_tag = f'<svg{new_attrs_str}>'
+    updated_svg = svg_content[:match.start()] + new_svg_tag + svg_content[match.end():]
+    return Markup(updated_svg)
+
+
 def load_yaml(filepath):
     """Loads and returns YAML data from a file."""
     with open(filepath, 'r', encoding='utf-8') as f:
@@ -274,31 +378,7 @@ def main():
     # Load and minify CSS
     print("Loading and minifying CSS...")
     
-    # 1. Process and save non-essential Font Awesome CSS (Asynchronous)
-    fa_files = [
-        os.path.join(OUTPUT_DIR, 'fa', 'css', 'fontawesome.min.css'),
-        os.path.join(OUTPUT_DIR, 'fa', 'css', 'solid.min.css'),
-        os.path.join(OUTPUT_DIR, 'fa', 'css', 'regular.min.css'),
-        os.path.join(OUTPUT_DIR, 'fa', 'css', 'brands.min.css')
-    ]
-    fa_css_content = ""
-    for fa_file in fa_files:
-        if os.path.exists(fa_file):
-            with open(fa_file, 'r', encoding='utf-8') as f:
-                content = f.read()
-                # Inject font-display: optional; to satisfy Lighthouse font display requirements
-                content = content.replace('@font-face{', '@font-face{font-display:optional;')
-                content = content.replace('@font-face {', '@font-face {font-display:optional;')
-                fa_css_content += content + "\n\n"
-        else:
-            print(f"Warning: Font Awesome file {fa_file} not found!")
-            
-    minified_fa_css = minify_css(fa_css_content)
-    dest_fa_css = os.path.join(OUTPUT_DIR, 'fa', 'css', 'all-icons.min.css')
-    os.makedirs(os.path.dirname(dest_fa_css), exist_ok=True)
-    with open(dest_fa_css, 'w', encoding='utf-8') as f:
-        f.write(minified_fa_css)
-    print(f"Generated asynchronous icons CSS at {dest_fa_css}")
+    # 1. Font Awesome async CSS compilation is no longer needed (inline SVGs are used instead)
 
     # 2. Process essential CSS (Inlined directly in head)
     essential_css_content = ""
@@ -335,6 +415,7 @@ def main():
     env.filters['rel'] = make_relative
     env.filters['rel_size'] = make_relative_size
     env.filters['tel'] = format_tel
+    env.filters['svg_icon'] = svg_icon_filter
     
     # 5. Define page builds
     pages = [
@@ -506,6 +587,14 @@ def main():
             shutil.rmtree(dest_fonts_dir)
         shutil.copytree(src_fonts_dir, dest_fonts_dir)
         print(f"Copied local font files to {dest_fonts_dir}")
+
+    # Copy local SVG icons for CSS references
+    dest_icons_dir = os.path.join(OUTPUT_DIR, 'icons')
+    if os.path.exists(ICONS_DIR):
+        if os.path.exists(dest_icons_dir):
+            shutil.rmtree(dest_icons_dir)
+        shutil.copytree(ICONS_DIR, dest_icons_dir)
+        print(f"Copied SVG icon files to {dest_icons_dir}")
 
     # 9. Copy PHP backend scripts and configuration files
     print("Copying PHP scripts and configs...")

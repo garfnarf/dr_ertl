@@ -13,21 +13,21 @@
       </div>
       <div>
         <a class="kbox kbox-row" href="tel:{{ praxis.telefon | tel }}" aria-label="Praxis anrufen: {{ praxis.telefon }}">
-          <i class="fas fa-phone-alt"></i>
+          {{ 'phone-alt' | svg_icon }}
           <div>
             <h3>Telefon</h3>
             <p>{{ praxis.telefon }}</p>
           </div>
         </a>
         <a class="kbox kbox-row" href="tel:{{ praxis.rezepthotline | tel }}" aria-label="Rezepthotline anrufen: {{ praxis.rezepthotline }}">
-          <i class="far fa-file-alt"></i>
+          {{ 'file-alt' | svg_icon }}
           <div>
             <h3>Hotline für Rezepte</h3>
             <p>{{ praxis.rezepthotline }}</p>
           </div>
         </a>
         <a class="kbox kbox-row" href="tel:{{ praxis.fax | tel }}" aria-label="Fax senden an: {{ praxis.fax }}">
-          <i class="fas fa-fax"></i>
+          {{ 'fax' | svg_icon }}
           <div>
             <h3>Fax</h3>
             <p>{{ praxis.fax }}</p>
@@ -38,7 +38,7 @@
       <div>
         <div class="kbox" role="region" aria-label="Sprechzeiten">
           <div class="sprechzeiten-title" style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
-            <i class="far fa-clock" style="margin-bottom: 0; display: inline-block; font-size: 34px; color: var(--sage);"></i>
+            {{ 'clock' | svg_icon(style="margin-bottom: 0; display: inline-block; font-size: 34px; color: var(--sage);") }}
             <h3 style="margin-bottom: 0;">Sprechzeiten</h3>
           </div>
           {% for s in praxis.sprechzeiten %}
@@ -53,7 +53,7 @@
 
     <div style="text-align: center; margin-top: 10px; margin-bottom: 26px;">
       <a class="kbox kbox-row" href="https://www.google.com/maps?q={{ maps_query }}" target="_blank" rel="noopener" aria-label="Adresse auf Google Maps anzeigen: {{ praxis.adresse.strasse }}, {{ praxis.adresse.ort }}" style="display: inline-flex !important; -webkit-box-orient: horizontal !important; -webkit-box-direction: normal !important; -webkit-flex-direction: row !important; -moz-box-orient: horizontal !important; -moz-box-direction: normal !important; -ms-flex-direction: row !important; flex-direction: row !important; text-align: left; margin-bottom: 0; align-items: center;">
-        <i class="fas fa-map-marker-alt" style="margin-bottom: 0 !important;"></i>
+        {{ 'map-marker-alt' | svg_icon(style="margin-bottom: 0 !important;") }}
         <div style="text-align: left;">
           <h3>{{ praxis.adresse.strasse }}</h3>
           <p>{{ praxis.adresse.ort }}</p>
@@ -73,7 +73,7 @@
 
     <div class="kbox" style="margin: 35px 0 60px; text-align: center;">
       <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 8px;">
-        <i class="fas fa-info-circle" style="margin-bottom: 0; display: inline-block;"></i>
+        {{ 'info-circle' | svg_icon(style="margin-bottom: 0; display: inline-block;") }}
         <h3 style="margin-bottom: 0;">Weitere Informationen</h3>
       </div>
       <p style="text-align: center;">
