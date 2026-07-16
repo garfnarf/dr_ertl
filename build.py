@@ -140,6 +140,17 @@ def parse_markdown_file(filepath):
     else:
         return {}, markdown.markdown(content)
 
+def inline_list_icons(html_content, icon_name):
+    """Finds all <li> tags and injects the SVG markup directly inside the <li> tag."""
+    if not html_content:
+        return html_content
+    svg_markup = svg_icon_filter(icon_name)
+    if not svg_markup:
+        return html_content
+    
+    replacement = f'<li><span class="li-icon-inline">{svg_markup}</span>'
+    return re.sub(r'<li>', replacement, html_content)
+
 def get_collection(collection_name):
     """Reads a collection directory and parses its YAML files."""
     dirpath = os.path.join(CONTENT_DIR, collection_name)
@@ -156,6 +167,16 @@ def get_collection(collection_name):
             # Extract and parse the markdown body stored in the 'text' key
             raw_text = data.pop('text', '')
             html_content = markdown.markdown(raw_text) if raw_text else ''
+            
+            # Inline SVGs if applicable
+            if collection_name == 'leistungen':
+                html_content = inline_list_icons(html_content, 'check')
+            elif collection_name == 'aktuelles':
+                listen_icon = data.get('listenIcon')
+                if listen_icon == 'chevron':
+                    html_content = inline_list_icons(html_content, 'chevron-right')
+                elif listen_icon == 'warnung':
+                    html_content = inline_list_icons(html_content, 'exclamation-triangle')
             
             entry_id = os.path.splitext(filename)[0]
             entries.append({

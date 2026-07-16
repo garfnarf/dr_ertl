@@ -989,26 +989,47 @@ h1.page-title,
 
 .service ul li {
   position: relative;
-  padding: 4px 0 4px 30px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: start;
+  -webkit-align-items: flex-start;
+  -moz-box-align: start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 4px 0;
   font-family: var(--font-alt);
   font-size: 15px;
   color: var(--text);
 }
 
-.service ul li::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 6px;
+.service ul li .li-icon-inline {
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
   width: 14px;
   height: 14px;
-  background-color: var(--sage);
-  -webkit-mask-image: url('svg-icons/check.svg');
-  mask-image: url('svg-icons/check.svg');
-  -webkit-mask-size: contain;
-  mask-size: contain;
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
+  color: var(--sage);
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -moz-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -moz-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin-top: 5px;
+}
+
+.service ul li .li-icon-inline svg {
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 
 @media (max-width: 767px) {
@@ -2099,33 +2120,46 @@ a.kbox:hover svg {
 
 .news ul li {
   position: relative;
-  padding: 5px 0 5px 32px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: start;
+  -webkit-align-items: flex-start;
+  -moz-box-align: start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 5px 0;
   font-family: var(--font-alt);
   color: var(--text);
 }
 
-.news ul li::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 6px;
+.news ul li .li-icon-inline {
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
   width: 14px;
   height: 14px;
-  background-color: var(--sage);
-  -webkit-mask-size: contain;
-  mask-size: contain;
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
+  color: var(--sage);
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -moz-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -moz-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin-top: 5px;
 }
 
-.news[data-icon='chevron'] ul li::before {
-  -webkit-mask-image: url('svg-icons/chevron-right.svg');
-  mask-image: url('svg-icons/chevron-right.svg');
-}
-
-.news[data-icon='warnung'] ul li::before {
-  -webkit-mask-image: url('svg-icons/exclamation-triangle.svg');
-  mask-image: url('svg-icons/exclamation-triangle.svg');
+.news ul li .li-icon-inline svg {
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 
 /* ---------- Mobile Centering Optimization ---------- */
@@ -2165,8 +2199,8 @@ a.kbox:hover svg {
     text-align: center !important;
   }
 
-  /* Stack and center lists with pseudo-element icons (.news list & .service list) */
-  .news ul li, .service ul li {
+  /* Stack and center lists with inline icons (.news list) on mobile */
+  .news ul li {
     padding-left: 0 !important;
     display: -webkit-box !important;
     display: -webkit-flex !important;
@@ -2186,12 +2220,19 @@ a.kbox:hover svg {
     -ms-flex-align: center !important;
     align-items: center !important;
     text-align: center !important;
+    gap: 6px !important;
   }
-  .news ul li::before, .service ul li::before {
-    position: static !important;
-    display: block !important;
-    margin-bottom: 6px !important;
-    text-align: center !important;
+  .news ul li .li-icon-inline {
+    margin-top: 0 !important;
+  }
+
+  /* Keep checkmarks on the left for services (.service list) and left-align the list on mobile */
+  .service ul {
+    display: inline-block;
+    text-align: left !important;
+  }
+  .service ul li {
+    text-align: left !important;
   }
 
   /* Stack and center standard markup lists (.icon-list) */
