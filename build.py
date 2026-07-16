@@ -476,7 +476,6 @@ def main():
             
         if not sichtbar:
             if os.path.exists(target_path):
-                import shutil
                 if os.path.isdir(target_path):
                     shutil.rmtree(target_path)
                     print(f"Deleted directory {target_path} because page is set to visible=false")
