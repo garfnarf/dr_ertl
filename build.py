@@ -461,16 +461,33 @@ def main():
     for entry_id, page_data in seiten.items():
         data = page_data['data']
         sichtbar = data.get('sichtbar', True)
+        
+        route = data.get('route', entry_id)
+        if route == 'aktuelles' or route == 'index':
+            route = ''
+            
+        # Determine target file path
+        if route == '':
+            target_path = os.path.join(OUTPUT_DIR, 'index.html')
+        elif route.endswith('.html'):
+            target_path = os.path.join(OUTPUT_DIR, route)
+        else:
+            target_path = os.path.join(OUTPUT_DIR, route)
+            
         if not sichtbar:
+            if os.path.exists(target_path):
+                import shutil
+                if os.path.isdir(target_path):
+                    shutil.rmtree(target_path)
+                    print(f"Deleted directory {target_path} because page is set to visible=false")
+                else:
+                    os.remove(target_path)
+                    print(f"Deleted file {target_path} because page is set to visible=false")
             continue
             
         template_name = data.get('template')
         if not template_name:
             template_name = f"{entry_id}.twig"
-            
-        route = data.get('route', entry_id)
-        if route == 'aktuelles' or route == 'index':
-            route = ''
             
         active_tab = data.get('active', entry_id)
         if route == '':
