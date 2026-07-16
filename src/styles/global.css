@@ -220,6 +220,7 @@ body.has-announcement {
   margin-top: 87px;
   width: 525px;
   max-width: 90%;
+  height: auto;
 }
 
 @media (max-width: 880px) {
@@ -390,6 +391,11 @@ body:not(.has-announcement) #main-nav {
     background-image: -moz-linear-gradient(rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.45)), url('uploads/header-bg-768w.jpg');
     background-image: -o-linear-gradient(rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.45)), url('uploads/header-bg-768w.jpg');
     background-image: linear-gradient(rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.45)), url('uploads/header-bg-768w.jpg');
+  }
+
+  .page-leistungen .infobar,
+  .page-ueber-uns .infobar {
+    display: none;
   }
 }
 
@@ -1836,12 +1842,7 @@ a.kbox:hover svg {
   }
 
   .kontakt-cols .photo {
-    text-align: center !important;
-    margin-bottom: 25px;
-  }
-
-  .kontakt-cols .photo img {
-    margin: 0 auto !important;
+    display: none;
   }
 
   .sprechzeiten-title {
@@ -2332,9 +2333,15 @@ a.kbox:hover svg {
   }
 }
 
-/* ---------- Mobile Viewport Hiding (max-width: 767px) ---------- */
 @media (max-width: 767px) {
   .galerie {
     display: none !important;
+  }
+}
+
+/* Custom page alignment styles */
+@media (min-width: 768px) {
+  .indent-desktop {
+    padding-left: 110px;
   }
 }

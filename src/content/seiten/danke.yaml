@@ -1,0 +1,7 @@
+titel: "Vielen Dank für Ihre Nachricht"
+meta_title: "Vielen Dank für Ihre Nachricht – Dres. Ertl"
+meta_desc: "Vielen Dank für Ihre Rezeptbestellung bei den Dres. Ertl in Oberhaching. Wir bearbeiten Ihre Anfrage umgehend zur Abholung in unserer Praxis."
+sichtbar: true
+im_menue: false
+template: "danke.twig"
+route: "danke"

@@ -1,0 +1,9 @@
+titel: "Leistungen, Reisemedizin & Vorsorge – Dres. Ertl"
+menue_titel: "Leistungen"
+meta_title: "Leistungen, Reisemedizin & Vorsorge – Dres. Ertl"
+meta_desc: "Ihr Allgemeinarzt in Oberhaching: Leistungen wie Innere Medizin, Kardiologie, Diabetologie, Kindervorsorgen, Reisemedizin & Gelbfieberimpfstelle."
+sichtbar: true
+im_menue: true
+reihenfolge: 4
+route: "leistungen"
+template: "leistungen.twig"

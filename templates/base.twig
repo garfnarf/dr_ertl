@@ -21,9 +21,9 @@
          | safe }}
     </style>
   </head>
-  <body class="{% if praxis.announcement.sichtbar %}has-announcement{% endif %}">
+  <body class="{% if is_home and praxis.announcement.sichtbar %}has-announcement{% endif %} {% if active %}page-{{ active }}{% endif %}">
     <a class="skip-link" href="#main-content">Zum Inhalt springen</a>
-    {% if praxis.announcement.sichtbar %}
+    {% if is_home and praxis.announcement.sichtbar %}
       <a class="announcement" href="{{ praxis.announcement.url }}" target="_blank" rel="noopener">
         Termine können Sie nun online buchen
       </a>
@@ -57,7 +57,7 @@
       </nav>
     </header>
 
-    {% if praxis.announcement.sichtbar %}
+    {% if is_home and praxis.announcement.sichtbar %}
       <a class="announcement announcement-mobile" href="{{ praxis.announcement.url }}" target="_blank" rel="noopener">
         Termine können Sie nun online buchen
       </a>

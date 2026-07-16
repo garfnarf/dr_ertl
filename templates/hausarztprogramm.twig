@@ -1,0 +1,57 @@
+{% extends "base.twig" %}
+
+{% block content %}
+  <div class="container legal hausarztprogramm-page">
+    <!-- Section 1 -->
+    <div style="margin-top: 40px; margin-bottom: 50px;">
+      <div class="kicker" style="margin-bottom: 12px;">{{ kicker }}</div>
+      <h1 class="indent-desktop" style="font-size: 36px; color: #333; margin-top: 0; margin-bottom: 24px;">{{ titel }}</h1>
+      
+      <div class="indent-desktop">
+        <ul style="list-style: none; padding-left: 0; margin-bottom: 24px;">
+          {% for vorteil in vorteile %}
+            <li style="display: flex; align-items: center; font-size: 16px; margin-bottom: 12px; color: var(--text);">
+              {{ 'check' | svg_icon(style="color: var(--sage); margin-right: 12px; font-size: 20px; flex-shrink: 0;") }}
+              <span>{{ vorteil }}</span>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <p class="indent-desktop" style="font-size: 16px; line-height: 1.6; color: var(--text); margin-bottom: 30px; max-width: 800px;">
+        {{ einleitung }}
+      </p>
+
+      <p class="indent-desktop" style="margin-top: 22px;">
+        <a class="btn" href="{{ base_path }}/kontakt/" style="display: inline-block;">Kontaktieren Sie uns!</a>
+      </p>
+    </div>
+
+    <hr style="border: 0; height: 1px; background: #e0e0e0; margin: 50px 0;" />
+
+    <!-- Section 2 -->
+    <div style="margin-bottom: 60px;">
+      <div class="kicker" style="margin-bottom: 12px;">{{ zusatzleistungen.kicker }}</div>
+      <h2 class="indent-desktop" style="font-size: 32px; color: #333; margin-top: 0; margin-bottom: 40px;">{{ zusatzleistungen.titel }}</h2>
+
+      <div class="indent-desktop" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 30px; text-align: center;">
+        {% for item in zusatzleistungen['items'] %}
+          <div style="display: flex; flex-direction: column; align-items: center;">
+            <!-- Icon box -->
+            <div style="width: 80px; height: 80px; border: 2px solid var(--sage); display: flex; align-items: center; justify-content: center; margin-bottom: 20px; background-color: #fff;">
+              {{ item.icon | svg_icon(style="font-size: 36px; color: var(--sage);") }}
+            </div>
+            
+            <h3 style="font-size: 18px; color: #333; margin-top: 0; margin-bottom: 12px; line-height: 1.4; max-width: 250px;">
+              {{ item.titel }}
+            </h3>
+            
+            <p style="font-size: 14px; line-height: 1.6; color: var(--text); margin: 0; max-width: 280px;">
+              {{ item.beschreibung }}
+            </p>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,41 @@
+titel: "WIR SUCHEN SIE!"
+sichtbar: true
+im_menue: false
+reihenfolge: 7
+subtitel: "Medizinische Fachangestellte oder Quereinsteiger (m/w/d)"
+art: "Art der Stelle: Teilzeit, geringfügige Beschäftigung"
+kontakt_info: |
+  Melden Sie sich bei Interesse bitte unter 089/613 09 222 oder per E-Mail an [info@praxis-dr-ertl.de](mailto:info@praxis-dr-ertl.de) bei uns.
+
+  Wir freuen uns auf Ihre Bewerbung!
+aufgaben_titel: "Ihre Aufgaben:"
+aufgaben:
+  - "Allgemein anfallende Verwaltungsaufgaben"
+  - "Aufnahme und Betreuung der Patienten"
+  - "Terminvergabe"
+  - "Organisation der Praxisabläufe"
+  - "Kassenabrechnung"
+  - "Unterstützung der Ärzte bei Untersuchungen"
+  - "Arbeit im Funktionsbereich (Lungenfunktion, EKG, Ergometrien, Wundverbände)"
+bieten_titel: "Wir bieten:"
+bieten:
+  - "ein junges Team"
+  - "eine abwechslungsreiche Tätigkeit"
+  - "gute Verkehrsanbindung"
+  - "eine langfristige Perspektive"
+  - "Tarifgemäße Bezahlung mit Möglichkeit von Bonuszahlungen"
+  - "moderne, gut ausgestattete Praxisräume"
+erwarten_titel: "Wir erwarten:"
+erwarten:
+  - "Grundkenntnisse am PC"
+  - "einen souveränen Umgang mit Patienten"
+  - "hohes Maß an Verantwortungsbewusstsein"
+  - "strukturiertes Arbeiten"
+mehr_infos_titel: "Mehr Informationen:"
+links:
+  - label: "Zum Berufsbild von MFAs"
+    url: "https://www.vmf-online.de/mfa"
+  - label: "Zur Bezahlung von MFAs"
+    url: "https://www.vmf-online.de/mfa-tarife"
+  - label: "Einblick in die Arbeit eines/r MFA"
+    url: "https://www.youtube.com/watch?v=otKXc8EN8nA"

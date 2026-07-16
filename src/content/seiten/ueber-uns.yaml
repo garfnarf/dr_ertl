@@ -1,0 +1,9 @@
+titel: "Über uns & Leistungen – Hausarztpraxis Dres. Ertl"
+menue_titel: "Über Uns"
+meta_title: "Über uns & Leistungen – Hausarztpraxis Dres. Ertl"
+meta_desc: "Lernen Sie unsere moderne Hausarztpraxis in Oberhaching kennen. Über 28 Jahre Erfahrung in Allgemeinmedizin, Kindervorsorge & Reisemedizin."
+sichtbar: true
+im_menue: true
+reihenfolge: 2
+route: "ueber-uns"
+template: "ueber-uns.twig"

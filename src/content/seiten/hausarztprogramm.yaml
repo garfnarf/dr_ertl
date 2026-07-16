@@ -1,0 +1,23 @@
+titel: "Das Hausarztprogramm (HzV)"
+kicker: "Aktuelle Informationen"
+sichtbar: true
+im_menue: false
+reihenfolge: 8
+einleitung: "Als Teilnehmer:in des Hausarztprogramms (HzV) sind wir Ihre erste Anlaufstelle bei gesundheitlichen Anliegen."
+vorteile:
+  - "Täglich kurzfristig verfügbare Termine"
+  - "Mehr Zeit für persönliche Betreuung"
+  - "Ab 35: Vorsorge alle zwei anstatt drei Jahre"
+zusatzleistungen:
+  titel: "Unsere Zusatzleistungen"
+  kicker: "Exklusiv im Hausarztprogramm"
+  items:
+    - titel: "Täglich kurzfristig verfügbare Termine"
+      icon: "calendar-alt"
+      beschreibung: "Für dringende Anliegen wie Krankschreibungen und Überweisungen reservieren wir zusätzliche Termine."
+    - titel: "Mehr Zeit für die persönliche Betreuung"
+      icon: "hourglass-half"
+      beschreibung: "Ihre Krankenkasse stellt unseren Praxen mehr Mittel bereit, die Ihnen als Patient:in zugutekommen."
+    - titel: "Ab 35: Vorsorge alle zwei anstatt drei Jahre"
+      icon: "angle-double-right"
+      beschreibung: "Sie können den kostenlosen Check-up 35 zur Früherkennung alle zwei Jahre in Anspruch nehmen."

@@ -1,0 +1,9 @@
+titel: "Unser Praxisteam – Hausarztpraxis Dres. Ertl"
+menue_titel: "Praxisteam"
+meta_title: "Unser Praxisteam – Hausarztpraxis Dres. Ertl"
+meta_desc: "Das Ärzteteam und die medizinischen Fachangestellten der Praxis Dres. Ertl in Oberhaching stellen sich vor. Wir freuen uns darauf, Sie zu betreuen!"
+sichtbar: true
+im_menue: true
+reihenfolge: 3
+route: "praxisteam"
+template: "praxisteam.twig"

@@ -202,16 +202,34 @@ def get_base_path(route):
         return '.'
     return '/'.join(['..'] * depth)
 
-def make_relative_nav(base_path, terminland_url):
-    """Generates relative nav links for base_path."""
-    return [
-        { 'label': 'Aktuelles', 'href': f"{base_path}/", 'key': 'aktuelles' },
-        { 'label': 'Über Uns', 'href': f"{base_path}/ueber-uns/", 'key': 'ueber-uns' },
-        { 'label': 'Praxisteam', 'href': f"{base_path}/praxisteam/", 'key': 'praxisteam' },
-        { 'label': 'Leistungen', 'href': f"{base_path}/leistungen/", 'key': 'leistungen' },
-        { 'label': 'Termine', 'href': terminland_url, 'key': 'termine' },
-        { 'label': 'Anfahrt & Kontakt', 'href': f"{base_path}/kontakt/", 'key': 'kontakt' },
-    ]
+def make_relative_nav(base_path, seiten):
+    """Generates relative nav links dynamically from the seiten collection based on im_menue."""
+    menu_items = []
+    for entry_id, page in seiten.items():
+        data = page['data']
+        if data.get('im_menue', False):
+            url = data.get('url')
+            if url:
+                href = url
+            else:
+                route = data.get('route', entry_id)
+                if route == 'aktuelles' or route == 'index':
+                    route = ''
+                
+                if route == '':
+                    href = f"{base_path}/"
+                else:
+                    href = f"{base_path}/{route}/"
+            
+            menu_items.append({
+                'label': data.get('menue_titel', data.get('titel', entry_id)),
+                'href': href,
+                'key': entry_id,
+                'reihenfolge': data.get('reihenfolge', 99)
+            })
+            
+    menu_items.sort(key=lambda x: x['reihenfolge'])
+    return menu_items
 
 def make_relative(path, base_path):
     """Normalize absolute paths with leading slash to be relative to base_path."""
@@ -439,90 +457,38 @@ def main():
     env.filters['svg_icon'] = svg_icon_filter
     
     # 5. Define page builds
-    pages = [
-        {
-            'route': '',
-            'template': 'index.twig',
+    pages = []
+    for entry_id, page_data in seiten.items():
+        data = page_data['data']
+        sichtbar = data.get('sichtbar', True)
+        if not sichtbar:
+            continue
+            
+        template_name = data.get('template')
+        if not template_name:
+            template_name = f"{entry_id}.twig"
+            
+        route = data.get('route', entry_id)
+        if route == 'aktuelles' or route == 'index':
+            route = ''
+            
+        active_tab = data.get('active', entry_id)
+        if route == '':
+            active_tab = 'aktuelles'
+            
+        is_home_val = (route == '')
+            
+        pages.append({
+            'route': route,
+            'template': template_name,
             'context': {
-                'title': 'Hausarzt Oberhaching – Hausarztpraxis Dres. Ertl',
-                'description': 'Hausarztpraxis Dres. Ertl in Oberhaching. Allgemeinmedizin, Innere Medizin, Kindervorsorgen & offizielle Gelbfieberimpfstelle. Online-Termin buchen!',
-                'active': 'aktuelles'
+                'title': data.get('meta_title', data.get('titel', '')),
+                'description': data.get('meta_desc', ''),
+                'active': active_tab,
+                'is_home': is_home_val,
+                **data
             }
-        },
-        {
-            'route': 'ueber-uns',
-            'template': 'ueber-uns.twig',
-            'context': {
-                'title': 'Über uns & Leistungen – Hausarztpraxis Dres. Ertl',
-                'description': 'Lernen Sie unsere moderne Hausarztpraxis in Oberhaching kennen. Über 28 Jahre Erfahrung in Allgemeinmedizin, Kindervorsorge & Reisemedizin.',
-                'active': 'ueber-uns'
-            }
-        },
-        {
-            'route': 'praxisteam',
-            'template': 'praxisteam.twig',
-            'context': {
-                'title': 'Unser Praxisteam – Hausarztpraxis Dres. Ertl',
-                'description': 'Das Ärzteteam und die medizinischen Fachangestellten der Praxis Dres. Ertl in Oberhaching stellen sich vor. Wir freuen uns darauf, Sie zu betreuen!',
-                'active': 'praxisteam'
-            }
-        },
-        {
-            'route': 'leistungen',
-            'template': 'leistungen.twig',
-            'context': {
-                'title': 'Leistungen, Reisemedizin & Vorsorge – Dres. Ertl',
-                'description': 'Ihr Allgemeinarzt in Oberhaching: Leistungen wie Innere Medizin, Kardiologie, Diabetologie, Kindervorsorgen, Reisemedizin & Gelbfieberimpfstelle.',
-                'active': 'leistungen'
-            }
-        },
-        {
-            'route': 'kontakt',
-            'template': 'kontakt.twig',
-            'context': {
-                'title': 'Kontakt, Anfahrt & Sprechzeiten – Dres. Ertl',
-                'description': 'Kontaktieren Sie die Hausarztpraxis Dres. Ertl in Oberhaching. Hier finden Sie Sprechzeiten, Telefonnummern, Anfahrtsskizze und Google Maps-Karte.',
-                'active': 'kontakt'
-            }
-        },
-        {
-            'route': 'danke',
-            'template': 'danke.twig',
-            'context': {
-                'title': 'Vielen Dank für Ihre Nachricht – Dres. Ertl',
-                'description': 'Vielen Dank für Ihre Rezeptbestellung bei den Dres. Ertl in Oberhaching. Wir bearbeiten Ihre Anfrage umgehend zur Abholung in unserer Praxis.'
-            }
-        },
-        {
-            'route': 'datenschutz',
-            'template': 'datenschutz.twig',
-            'context': {
-                'title': 'Datenschutzerklärung – Hausarztpraxis Dres. Ertl',
-                'description': 'Datenschutzerklärung der Fach- und Hausarztpraxis Dres. Ertl in Oberhaching. Informationen zur DSGVO-konformen Verarbeitung Ihrer Daten auf unserer Website.',
-                'titel': seiten['datenschutz']['data']['titel'] if 'datenschutz' in seiten else 'Datenschutz',
-                'content': seiten['datenschutz']['content'] if 'datenschutz' in seiten else ''
-            }
-        },
-        {
-            'route': 'impressum',
-            'template': 'impressum.twig',
-            'context': {
-                'title': 'Impressum – Fach- und Hausarztpraxis Dres. Ertl',
-                'description': 'Gesetzliches Impressum der Fach- und Hausarztpraxis Dres. Ertl in Oberhaching. Kontaktdaten, Ärztekammer-Zugehörigkeit und rechtliche Angaben.',
-                'titel': seiten['impressum']['data']['titel'] if 'impressum' in seiten else 'Impressum',
-                'content': seiten['impressum']['content'] if 'impressum' in seiten else ''
-            }
-        },
-        {
-            'route': '404.html',
-            'template': '404.twig',
-            'context': {
-                'title': 'Seite nicht gefunden – Fach- und Hausarztpraxis Dres. Ertl',
-                'description': 'Die von Ihnen gesuchte Seite konnte leider nicht gefunden werden. Kehren Sie zurück zur Startseite.',
-                'active': ''
-            }
-        }
-    ]
+        })
     
     # 6. Render static pages
     print("Rendering pages...")
@@ -530,7 +496,7 @@ def main():
         template = env.get_template(page['template'])
         route = page['route']
         base_path = get_base_path(route)
-        nav = make_relative_nav(base_path, praxis['terminland'])
+        nav = make_relative_nav(base_path, seiten)
         # Merge global context with page-specific context
         ctx = {
             **global_context,
@@ -562,7 +528,7 @@ def main():
         slug = arzt['id']
         route = f"praxisteam/{slug}"
         base_path = get_base_path(route)
-        nav = make_relative_nav(base_path, praxis['terminland'])
+        nav = make_relative_nav(base_path, seiten)
         template = env.get_template('arzt-detail.twig')
         
         # Build optimized custom descriptions for doctors

@@ -1,4 +1,7 @@
 titel: Datenschutzerklärung
+sichtbar: true
+im_menue: false
+template: "datenschutz.twig"
 text: '## 1. Datenschutz auf einen Blick
 
 

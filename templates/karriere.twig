@@ -1,0 +1,76 @@
+{% extends "base.twig" %}
+
+{% block content %}
+  <div class="container legal karriere-page" style="margin-top: 40px; margin-bottom: 60px;">
+    <!-- Title Section -->
+    <div style="margin-bottom: 35px;">
+      <h1 style="font-size: 32px; color: var(--sage); margin-top: 0; margin-bottom: 12px; font-weight: 700; text-transform: uppercase;">{{ titel }}</h1>
+      <h2 style="font-size: 24px; color: #333; margin-top: 0; margin-bottom: 16px; font-weight: 600; line-height: 1.3;">{{ subtitel }}</h2>
+      <p style="font-size: 15px; color: #666; margin: 0;">{{ art }}</p>
+    </div>
+
+    <!-- Contact Alert Box -->
+    <div style="border-left: 4px solid var(--sage); padding: 15px 20px; background-color: #fcfdfb; margin-bottom: 45px;">
+      <p style="margin-top: 0; margin-bottom: 12px; line-height: 1.6; font-size: 16px; color: var(--text);">
+        Melden Sie sich bei Interesse bitte unter <b>089/613 09 222</b> oder per E-Mail an <a href="mailto:info@praxis-dr-ertl.de" style="color: var(--sage-dark); font-weight: 600; text-decoration: underline;">info@praxis-dr-ertl.de</a> bei uns.
+      </p>
+      <p style="margin: 0; font-size: 16px; font-weight: 600; color: #333;">
+        Wir freuen uns auf Ihre Bewerbung!
+      </p>
+    </div>
+
+    <!-- Columns Grid -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px; margin-bottom: 50px;">
+      <!-- Column 1: Tasks -->
+      <div>
+        <h3 style="font-size: 20px; color: var(--sage-dark); margin-top: 0; margin-bottom: 20px; font-weight: 600;">{{ aufgaben_titel }}</h3>
+        <ul style="list-style: none; padding-left: 0; margin: 0;">
+          {% for item in aufgaben %}
+            <li style="display: flex; align-items: flex-start; margin-bottom: 12px; font-size: 15px; line-height: 1.5; color: var(--text);">
+              {{ 'chevron-right' | svg_icon(style="color: var(--sage); margin-right: 10px; margin-top: 3px; font-size: 12px; flex-shrink: 0; width: 12px; height: 12px;") }}
+              <span>{{ item }}</span>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <!-- Column 2: Offer -->
+      <div>
+        <h3 style="font-size: 20px; color: var(--sage-dark); margin-top: 0; margin-bottom: 20px; font-weight: 600;">{{ bieten_titel }}</h3>
+        <ul style="list-style: none; padding-left: 0; margin: 0;">
+          {% for item in bieten %}
+            <li style="display: flex; align-items: flex-start; margin-bottom: 12px; font-size: 15px; line-height: 1.5; color: var(--text);">
+              {{ 'chevron-right' | svg_icon(style="color: var(--sage); margin-right: 10px; margin-top: 3px; font-size: 12px; flex-shrink: 0; width: 12px; height: 12px;") }}
+              <span>{{ item }}</span>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <!-- Column 3: Expectation -->
+      <div>
+        <h3 style="font-size: 20px; color: var(--sage-dark); margin-top: 0; margin-bottom: 20px; font-weight: 600;">{{ erwarten_titel }}</h3>
+        <ul style="list-style: none; padding-left: 0; margin: 0;">
+          {% for item in erwarten %}
+            <li style="display: flex; align-items: flex-start; margin-bottom: 12px; font-size: 15px; line-height: 1.5; color: var(--text);">
+              {{ 'chevron-right' | svg_icon(style="color: var(--sage); margin-right: 10px; margin-top: 3px; font-size: 12px; flex-shrink: 0; width: 12px; height: 12px;") }}
+              <span>{{ item }}</span>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+
+    <!-- More Info Section -->
+    <div style="border-top: 1px solid #e0e0e0; padding-top: 40px; margin-bottom: 20px;">
+      <h3 style="font-size: 20px; color: var(--sage-dark); margin-top: 0; margin-bottom: 24px; font-weight: 600;">{{ mehr_infos_titel }}</h3>
+      <div style="display: flex; flex-wrap: wrap; gap: 15px;">
+        {% for link in links %}
+          <a class="btn" href="{{ link.url }}" target="_blank" rel="noopener" style="text-align: center; text-decoration: none;">
+            {{ link.label }}
+          </a>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -1,4 +1,7 @@
 titel: Impressum
+sichtbar: true
+im_menue: false
+template: "impressum.twig"
 text: 'Dr. Ludwig Ertl
 
   Lanzenhaarer Str. 1

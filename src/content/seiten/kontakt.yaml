@@ -1,0 +1,9 @@
+titel: "Kontakt, Anfahrt & Sprechzeiten – Dres. Ertl"
+menue_titel: "Anfahrt & Kontakt"
+meta_title: "Kontakt, Anfahrt & Sprechzeiten – Dres. Ertl"
+meta_desc: "Kontaktieren Sie die Hausarztpraxis Dres. Ertl in Oberhaching. Hier finden Sie Sprechzeiten, Telefonnummern, Anfahrtsskizze und Google Maps-Karte."
+sichtbar: true
+im_menue: true
+reihenfolge: 6
+route: "kontakt"
+template: "kontakt.twig"

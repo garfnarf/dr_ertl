@@ -2,7 +2,12 @@ titel: Wir suchen SIE!
 kicker: Jobangebot
 reihenfolge: 65
 sichtbar: true
-text: 'Medizinische Fachangestellte oder Quereinsteiger (m/w/d)
+text: |
+  **Medizinische Fachangestellte oder Quereinsteiger (m/w/d)**
 
+  *Art der Stelle:* Teilzeit, geringfügige Beschäftigung (Minijob)
 
-  Art der Stelle: Teilzeit'
+  Wir suchen ab sofort Verstärkung für unser Praxisteam in Oberhaching. Wenn Sie Freude am Umgang mit Menschen haben, teamfähig sind und in einer modernen Hausarztpraxis mitarbeiten möchten, freuen wir uns auf Ihre Bewerbung!
+button:
+  text: "Zur Karriereseite & Bewerbung"
+  url: "./karriere/"

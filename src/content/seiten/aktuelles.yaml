@@ -1,0 +1,9 @@
+titel: "Hausarzt Oberhaching – Hausarztpraxis Dres. Ertl"
+menue_titel: "Aktuelles"
+meta_title: "Hausarzt Oberhaching – Hausarztpraxis Dres. Ertl"
+meta_desc: "Hausarztpraxis Dres. Ertl in Oberhaching. Allgemeinmedizin, Innere Medizin, Kindervorsorgen & offizielle Gelbfieberimpfstelle. Online-Termin buchen!"
+sichtbar: true
+im_menue: true
+reihenfolge: 1
+route: ""
+template: "index.twig"

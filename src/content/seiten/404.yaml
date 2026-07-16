@@ -1,0 +1,7 @@
+titel: "Seite nicht gefunden"
+meta_title: "Seite nicht gefunden – Fach- und Hausarztpraxis Dres. Ertl"
+meta_desc: "Die von Ihnen gesuchte Seite konnte leider nicht gefunden werden. Kehren Sie zurück zur Startseite."
+sichtbar: true
+im_menue: false
+template: "404.twig"
+route: "404.html"
